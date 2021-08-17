@@ -1,4 +1,4 @@
-## OCTOPUS-MAP API (V0.0.6)
+## OCTOPUS-MAP API (V0.0.7)
 
 
 
@@ -59,8 +59,9 @@ const Tmap = new MapInit({
 | map          | map 实例                          |
 | layers       | 返回添加的 layer 的实例数组       |
 | interactions | 返回添加的 interaction 的实例数组 |
+| overlays     | 返回添加的 overlay 的实例数组     |
 
-
+ 
 
 #### 实例方法
 
@@ -1117,6 +1118,7 @@ const domeMarker = Tmap.Domemarker({
 | name   | String   | true | null   | Overlay 实例的名字 |
 | id     | String   | true | null   | Dom 容器的 Id      |
 | point  | Number[] | true | null   | Dom 标注的位置     |
+| label  | String   | true | null   | Dom 标注的提示     |
 
 
 

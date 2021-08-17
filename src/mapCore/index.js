@@ -112,6 +112,11 @@ export class MapInit {
     return this._interactions
   }
 
+  /** @description 返回全部的 overlay */
+  get overlays () {
+    return this._overlays
+  }
+
   /**
    * @description 创建 Text 实例
    *
@@ -392,12 +397,12 @@ export class MapInit {
    */
   addOverlay (options) {
     if (Array.isArray(options)) {
-      this._overlay = this._overlay.push(...options)
+      this._overlays.push(...options)
       options.forEach(item => {
         this._map.addOverlay(item)
       })
     } else {
-      this._overlay.push(options)
+      this._overlays.push(options)
       this._map.addOverlay(options)
     }
   }
@@ -410,7 +415,7 @@ export class MapInit {
    */
   searchOverlay (options) {
     let overlay, i
-    this._overlay.forEach((item, index) => {
+    this._overlays.forEach((item, index) => {
       if (item.get('name') === options) {
         overlay = item
         i = index
@@ -434,7 +439,7 @@ export class MapInit {
         overlayArray.push(...overlay)
       })
     } else {
-      this._overlay.forEach(item => {
+      this._overlays.forEach(item => {
         if (item.get('name') === options) {
           overlayArray.push(item)
         }
@@ -448,7 +453,7 @@ export class MapInit {
    * @description 移除全部的 Overlay 实例
    */
   removeOverlay () {
-    this._overlay.forEach(item => {
+    this._overlays.forEach(item => {
       this._map.removeOverlay(item)
     })
   }

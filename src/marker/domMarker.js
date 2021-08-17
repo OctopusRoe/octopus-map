@@ -14,6 +14,7 @@ import Overlay from 'ol/Overlay'
  * @typedef createPointOptions
  * @property {String} name overlay 的名字
  * @property {String} id 设置 Dom 容器的 ID
+ * @property {String} label Dom 标注的提示信息
  * @property {Number[]} point 点位置的数组
  */
 
@@ -67,11 +68,11 @@ export default class DomMarker {
     // 判断是否使用 title 属性
     if (this._options.useTitle) {
       // 给容器添加 title 属性
-      div.title = item.label
+      div.title = options.label
     }
 
     // 给容器添加 data-item 属性,并且添加值
-    div.setAttribute('data-item', JSON.stringify(item))
+    div.setAttribute('data-item', JSON.stringify(options))
 
     // 创建 Overlay 实例
     const overlay = new Overlay({
