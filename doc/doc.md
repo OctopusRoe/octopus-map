@@ -1,4 +1,4 @@
-## OCTOPUS-MAP API (V0.0.5)
+## OCTOPUS-MAP API (V0.0.6)
 
 
 
@@ -9,7 +9,15 @@
 #### 安装方法
 
 ```
-npm install octopus-map
+npm install octopus-map -S
+```
+
+
+
+#### 引用
+
+```javascript
+import MapInit from 'octopus-map'
 ```
 
 

@@ -1,10 +1,13 @@
 {
   "name": "octopus-map",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "private": false,
   "main": "lib/index",
-  "keywords": [],
+  "keywords": [
+    "map",
+    "openlayer"
+  ],
   "scripts": {
     "serve": "webpack server --open",
     "build": "babel src -d lib",
@@ -14,9 +17,12 @@
   "typings": "types/index.d.ts",
   "author": "OctopusRoe",
   "bugs": {
-    "email": "zp393939@outlook.com"
+    "email": "zp393939@outlook.com",
+    "url": "https://github.com/OctopusRoe/octopus-map"
   },
+  "homepage": "https://github.com/OctopusRoe/octopus-map",
   "files": [
+    "doc",
     "lib",
     "types",
     "src",
