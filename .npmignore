@@ -1,0 +1,14 @@
+dist/
+examples/
+node_modules/
+
+webpack.config.js
+
+
+babel.config.js
+package-lock.json
+
+.gitignore
+.npmignore
+.eslintrc.js
+.babelrc

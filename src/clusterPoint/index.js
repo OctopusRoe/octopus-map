@@ -1,0 +1,142 @@
+/**
+ *
+ * @description 聚合
+ *
+ * @author OctopusRoe
+ *
+ * @version 0.0.1
+ *
+ */
+
+import Feature from 'ol/Feature'
+import Point from 'ol/geom/Point'
+import BaseFeature from '../baseFeature'
+import { Cluster, Vector as VectorSource } from 'ol/source'
+import { Vector as VectorLayer } from 'ol/layer'
+import { Style, Text, Icon, Fill } from 'ol/style'
+
+export default class ClusterPoint extends BaseFeature {
+  /**
+   *
+   * @param {Object} options
+   * @param {String} options.iconUrl 聚合的图标样式
+   * @param {String} [options.fontStyle] 标注字体的样式, 和 css 中的 font 字段一样
+   * @param {String} [options.fontColor] 标注字体的颜色
+   * @param {Number[]} [options.offset] 标注字体的偏移量[x, y]
+   * @param {Number} [options.distance] 要素将聚集在一起的距离
+   */
+  constructor (options) {
+    super()
+    /** @description 保存粗昂见实例时, 传入的全部参数 */
+    this._options = options
+
+    /** @description 用于储存 feature 实例仓库 */
+    this._feature = []
+
+    /** @description 用于储存 interaction 实例仓库 */
+    this._select = []
+
+    /** @description 样式仓库 */
+    this._styleCache = {}
+
+    /** @description 创建源 */
+    this._source = new VectorSource({ wrapX: false })
+
+    this._wheel = {}
+
+    /** @description 创建集合源 */
+    this._cluster = new Cluster({
+      distance: options.distance || 50,
+      source: this._source
+    })
+
+    /** @description 创建图层 */
+    this._layer = new VectorLayer({
+      source: this._cluster,
+      style: (feature) => this._returenStyle(feature)
+    })
+  }
+
+  /**
+   * @description 返回 Style 实例
+   *
+   * @param {import('ol/Feature').default} feature feature 实例
+   * @return {import('ol/style/Style').default} Style 实例
+   */
+  _returenStyle (feature) {
+    const size = feature.get('features').length
+
+    let style = this._styleCache[size]
+
+    if (!style) {
+      style = new Style({
+        image: new Icon({
+          src: this._options.iconUrl
+        }),
+        text: new Text({
+          font: this._options.fontStyle || '15px Microsoft YaHei',
+          text: size.toString(),
+          fill: new Fill({
+            color: this._options.fontColor || 'rgba(255, 255, 255, 1)'
+          }),
+          offsetx: this._options.offsetX && this._options.offset[0] || 0,
+          offsetY: this._options.offsetY && this._options.offset[1] || 0
+        })
+      })
+
+      this._styleCache[size] = style
+    }
+
+    return style
+  }
+
+  /**
+   * @description 创建聚合
+   *
+   * @param {Array<{point: Number[], id: String}> | {point: Number[], id: String}} options 数据对象或者数据数组
+   * @return {{layer: import('ol/layer/Vector').default, feature: Array<import('ol/Feature').default>}}
+   */
+  create (options) {
+    if (Array.isArray(options)) {
+      const array = options.map(item => (
+        new Feature({
+          item: item,
+          id: item.id,
+          geometry: new Point(item.point)
+        })
+      ))
+
+      this._feature.concat(array)
+      this._addFeature(array)
+    } else {
+      const feature = new Feature({
+        item: options,
+        id: options.id,
+        geometry: new Point(options.point)
+      })
+
+      this._feature.push(feature)
+      this._addFeature(feature)
+    }
+
+    return { layer: this._layer, feature: this._feature }
+  }
+
+  /**
+   * @description 通过 MapBrowserEvent 中获取鼠标事件
+   *
+   * @param {import('ol/MapBrowserEvent').default | Event} e
+   * @returns {{zoom: Number, delta: Number, event: import('ol/MapBrowserEvent').default | Event}}
+   */
+  wheel (e) {
+    const { originalEvent } = e
+    let delta
+    if (originalEvent) {
+      delta = originalEvent.delta || originalEvent.wheelDelta
+    } else {
+      delta = e.delta || e.wheelDelta
+    }
+
+    return { zoom: e.zoom || parseInt(this._options.map.getView().getZoom()), delta: delta, event: e }
+  }
+}
