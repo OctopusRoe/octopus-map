@@ -12,6 +12,7 @@ import BaseFeature from '../baseFeature'
 import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
 import Select from 'ol/interaction/Select'
+import DomMarker from './domMarker'
 import { click } from 'ol/events/condition'
 import { Vector as VectorLayer } from 'ol/layer'
 import { Vector as VectorSource } from 'ol/source'
@@ -46,6 +47,12 @@ export default class IconMarker extends BaseFeature {
 
     /** @description 用于储存 interaction 的 select 实例仓库 */
     this._select = []
+
+    /** @description 用于储存 Overlay 实例 */
+    this._overlay = null
+
+    /** @description 用于储存 DomMarker 实例 */
+    this._domMarker = null
 
     /** @description 创建源 */
     this._source = new VectorSource({ wrapX: false })
@@ -93,6 +100,39 @@ export default class IconMarker extends BaseFeature {
   }
 
   /**
+   * @return {import('ol/interaction/Interaction').default} Interaction 实例
+   */
+  _createSelect () {
+    this._select.push(
+      new Select({
+        condition: click,
+        layers: [this._layer],
+        style: (feature) => this._returenStyle(feature)
+      })
+    )
+
+    return this._select[this._select.length - 1]
+  }
+
+  /**
+   * @description 创建 Element 实例
+   *
+   * @param {String | Element} element Dom 字符串模板或者 Dom 实例
+   * @return {Element} 返回 Dom 实例
+   */
+  _createElement (element) {
+    let div
+    if (element instanceof Element) {
+      div = element
+    } else {
+      div = document.createElement('div')
+      div.insertAdjacentHTML('afterbegin', element)
+    }
+
+    return div
+  }
+
+  /**
    * @description 创建 icon 点的方法
    *
    * @param {CreatePointOptions | CreatePointOptions[]} options 创建点的配置
@@ -132,18 +172,12 @@ export default class IconMarker extends BaseFeature {
    * @return {import('ol/interaction/Select').default} interaction 的实例
    */
   addClick (name, callBack) {
-    this._select.push(
-      new Select({
-        condition: click,
-        layers: [this._layer],
-        style: (feature) => this._returnStyle(feature)
-      })
-    )
+    const select = this._createSelect()
 
     // 设置 select 的名字
-    this._select[this._select.length - 1].set('name', name || 'clickSelect')
+    select.set('name', name || 'clickSelect')
 
-    this._select[this._select.lenght - 1].on('select', e => {
+    select.on('select', e => {
       if (e.selected.length === 0) return
       callBack && callBack({
         zoom: parseInt(this._options.map.getView().getZoom()),
@@ -151,6 +185,65 @@ export default class IconMarker extends BaseFeature {
       })
     })
 
-    return this._select[this._select.length - 1]
+    return select
+  }
+
+  /**
+   * @description 创建 Dom 弹框
+   *
+   * @param {Object} options
+   * @param {String | Element} options.innerHTML Dom 字符串模板或者 Dom 实例
+   * @param {Function} options.callBack 回调函数
+   * @param {String} [options.name] Interaction 层的名字
+   * @param {Number} [options.minZoom] 允许弹窗的最小层级
+   */
+  createAlert (options) {
+    const { innerHTML, callBack, minZoom = 18, offset = [0, 0] } = options
+
+    // 创建 dom 容器
+    const div = this._createElement(innerHTML)
+    // 设置样式
+    div.style.display = 'none'
+
+    const select = this._createSelect()
+    select.set('name', options.name || 'createAlert')
+
+    this._domMarker = new DomMarker({
+      map: this._options.map,
+      overlay: [],
+      offset: offset,
+      innerHTML: innerHTML,
+      useTitle: false
+    })
+
+    select.on('select', e => {
+      // 小于 minZoom 则不运行
+      if (this._options.map.getView().getZoom() < minZoom) return
+      // 未选中 Feature 不运行
+      if (e.selected.length === 0) return
+      // this._overlay 仓库存在则从 map 实例上移除 overlay
+      if (this._overlay) {
+        this._options.map.removeOverlay(this._overlay)
+        this._overlay = null
+      }
+
+      div.style.display = 'block'
+
+      callBack && callBack({
+        zoom: parseInt(this._options.map.getView().getZoom()),
+        item: e.selected[0].get('features')[0].get('item')
+      })
+
+      const overlay = this._domMarker.create({
+        name: 'domeAlert',
+        id: e.selected[0].get('features')[0].get('id'),
+        point: e.selected[0].getGeometry().getCoordinates()
+      })
+
+      this._overlay = overlay.overlay[overlay.overlay.length - 1]
+      this._options.map.addOverlay(this._overlay)
+    })
+
+    return select
   }
 }

@@ -1,4 +1,4 @@
-## OCTOPUS-MAP API (V0.0.7)
+## OCTOPUS-MAP API (V0.0.8)
 
 
 
@@ -989,6 +989,40 @@ iconMarker.create({
 
 
 
+##### createAlert
+
+| 方法名               | 返回        | 说明              |
+| -------------------- | ----------- | ----------------- |
+| createAlert(options) | Interaction | 用于创建 Dom 弹框 |
+
+
+
+| 参数名  | 类型   | 必须 | 默认值 | 说明     |
+| ------- | ------ | ---- | ------ | -------- |
+| options | Object | true | null   | 配置详情 |
+
+| 属性名    | 类型              | 必须  | 默认值      | 说明                                      |
+| --------- | ----------------- | ----- | ----------- | ----------------------------------------- |
+| innerHTML | String \| Element | true  | null        | Dom 字符串模板或者 Dom 实例对象           |
+| callBack  | Function          | true  | null        | 回调函数,返回{zoom: Number, item: Object} |
+| name      | String            | false | createAlert | Interaction 实例的名字                    |
+| minZoom   | Number            | false | 18          | 最小可点击级别                            |
+
+
+
+```javascript
+iconMarker.createAlert({
+    innerHTML: '<div>123</div>',
+    callBack: (e) => {console.log(e)},
+    name: 'testCreateAlert',
+    minZoom: 16
+})
+```
+
+
+
+
+
 ##### searchFeature
 
 | 方法名                 | 返回                                              | 说明                      |
@@ -1076,7 +1110,7 @@ iconMarker.create({
 | 属性名    | 类型     | 必须  | 默认值 | 说明                           |
 | --------- | -------- | ----- | ------ | ------------------------------ |
 | offset    | Number[] | false | [0, 0] | Overlay 整体偏移量, [x, y]     |
-| innerHTML | Sring    | true  | null   | Dom 字符串模板                 |
+| innerHTML | Sring    | true  | null   | Dom 字符串模板,或者 Dom 实例   |
 | useTitle  | Boolean  | false | false  | 是否使用 dom 标签的 title 属性 |
 
 
@@ -1085,6 +1119,12 @@ iconMarker.create({
 const domeMarker = Tmap.Domemarker({
     offset: [0, 10],
     innerHtML: `<div><img src="http://www.xxxxxxxx.com/xxxxxxx" /></div>`,
+    useTitle: true
+})
+
+const domeMarker = Tmap.DomeMarker({
+    offset: [0, 10],
+    innerHTML: document.getElementById('Dom'),
     useTitle: true
 })
 ```
@@ -1836,3 +1876,64 @@ const wheel = Tmap.on('wheel', e => {
 })
 ```
 
+
+
+##### addClick
+
+| 方法名                           | 返回        | 说明             |
+| -------------------------------- | ----------- | ---------------- |
+| addClick(name,callBack, minZoom) | Intearction | 用于创建点击事件 |
+
+
+
+| 参数名   | 类型     | 必须  | 默认值            | 说明                                      |
+| -------- | -------- | ----- | ----------------- | ----------------------------------------- |
+| name     | String   | false | clusterPointClick | Interaction 实例的名字                    |
+| callBack | Function | false | null              | 回调函数,返回{zoom: Number, item: Object} |
+| minZoom  | Number   | false | 18                | 最小可点击级别                            |
+
+
+
+```javascript
+cluster.addClick('testCreate', (e) => {console.log(e)}, 15)
+```
+
+
+
+**注意:** 因为此类是创建聚合,点击事件最好设置最小级别为创建地图时设置的视图最大级别(maxZoom)
+
+
+
+##### createAlert
+
+| 方法名               | 返回        | 说明              |
+| -------------------- | ----------- | ----------------- |
+| createAlert(options) | Interaction | 用于创建 Dom 弹框 |
+
+
+
+| 参数名  | 类型   | 必须 | 默认值 | 说明     |
+| ------- | ------ | ---- | ------ | -------- |
+| options | Object | true | null   | 配置详情 |
+
+| 属性名    | 类型              | 必须  | 默认值      | 说明                                      |
+| --------- | ----------------- | ----- | ----------- | ----------------------------------------- |
+| innerHTML | String \| Element | true  | null        | Dom 字符串模板或者 Dom 实例对象           |
+| callBack  | Function          | true  | null        | 回调函数,返回{zoom: Number, item: Object} |
+| name      | String            | false | createAlert | Interaction 实例的名字                    |
+| minZoom   | Number            | false | 18          | 最小可点击级别                            |
+
+
+
+```javascript
+cluster.createAlert({
+    innerHTML: '<div>123</div>',
+    callBack: (e) => {console.log(e)},
+    name: 'testCreateAlert',
+    minZoom: 16
+})
+```
+
+
+
+**注意:** 因为此类是创建聚合,弹框事件最好设置最小级别为创建地图时设置的视图最大级别(maxZoom)

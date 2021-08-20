@@ -26,7 +26,7 @@ export default class DomMarker {
    * @param {import('ol/map').default} options.map openlayers 的 Map 实例
    * @param {Array<import('ol/Overlay').default>} options.overlay Overlay 实例的数组
    * @param {Number[]} options.offset overlay 整体偏移量
-   * @param {String} options.innerHTML overlay dom 字符串模板
+   * @param {String} options.innerHTML dom 字符串模板
    * @param {Boolean} options.useTitle 是否使用 dom 标签的 title 属性
    */
   constructor (options) {
@@ -63,7 +63,11 @@ export default class DomMarker {
     const div = this._createMarkElement()
 
     // 把字符串模板塞入容器
-    div.innerHTML = this._options.innerHTML
+    if (this._options.innerHTML instanceof Element) {
+      div.insertAdjacentElement('afterbegin', this._options.innerHTML)
+    } else {
+      div.insertAdjacentHTML('afterbegin', this._options.innerHTML)
+    }
 
     // 判断是否使用 title 属性
     if (this._options.useTitle) {

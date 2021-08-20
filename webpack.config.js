@@ -1,5 +1,4 @@
 const path = require('path')
-const webpack = require('webpack')
 module.exports = {
   entry: './examples/main.js',
   output: {
@@ -23,9 +22,6 @@ module.exports = {
     progress: true,
     port: 8100
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname)

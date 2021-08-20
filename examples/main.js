@@ -23,17 +23,17 @@ Tmap.useTianDiTu({
 //   // matrixSet: '7to15',
 //   proj: 'EPSG:3857',
 //   // format: 'image/png',
-//   url: 'http://192.168.1.200:3001/bigemap.b461iq0w/wmts?access_token=',
-//   key: 'pk.eyJ1IjoiY3VzXzBudnBwMHg1IiwiYSI6IjNvejI3ZnNqNG94NDk0Mm4xMzhxaW5jaWsiLCJ0IjoxfQ.bqPe0te9a0x5uQ0i9RJaUitezaMmiCxQmWIJYe_XutU'
+//   url: 'http://localhost:9001/bigemap.02n9odpy/wmts?access_token=',
+//   key: 'pk.eyJ1IjoiY3VzXzZ1NXZmOXdsIiwiYSI6IjdyYWtlaTdnaXpuandwcDJvbzJiZW1obHkiLCJ0IjoxfQ.6JBVGFNZ47dAfZl32XT1c_Xw0mstu88L7eAx6znQfLU'
 // })
 Tmap.on('click', (e) => {
 
   // const a = Tmap._getLonLat(e)
   //
 })
-document.getElementById('root').addEventListener('click', e => {
-  console.log('%c 🍅 Tmap.getLonLat(e): ', 'font-size:20px;background-color: #465975;color:#fff;', Tmap.getLonLat(e))
-})
+// document.getElementById('root').addEventListener('click', e => {
+//   console.log('%c 🍅 Tmap.getLonLat(e): ', 'font-size:20px;background-color: #465975;color:#fff;', Tmap.getLonLat(e))
+// })
 
 const test = Tmap.Text({ name: 'test', color: '#fff',
   background: {
@@ -120,27 +120,36 @@ Tmap.addLayer(heat.layer)
 // /* ****************** 画网格 ****************** */
 
 // /* ****************** 修改网格 **************** */
-const drawModify = Tmap.DrawModify({ layer: trajectory.layer })
-const drawModifyReturn = drawModify.create()
-drawModify.stopModify('testStopModify', (e) => {
-  console.log('%c 🍏 e: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', e)
+// const drawModify = Tmap.DrawModify({ layer: trajectory.layer })
+// const drawModifyReturn = drawModify.create()
+// drawModify.stopModify('testStopModify', (e) => {
+//   console.log('%c 🍏 e: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', e)
 
-  Tmap.removeInteraction(drawModify.interactions)
-})
-Tmap.addInteraction(drawModify.interactions)
+//   Tmap.removeInteraction(drawModify.interactions)
+// })
+// Tmap.addInteraction(drawModify.interactions)
 // /* ****************** 修改网格 **************** */
 
 /* ****************** 修改网格 **************** */
 
-// const cluster = Tmap.ClusterPoint({ iconUrl: require('./car.png').default })
+const cluster = Tmap.ClusterPoint({ iconUrl: require('./car.png').default })
 
-// a.forEach((item, index) => {
-//   cluster.create({ id: index, point: item })
-// })
+a.forEach((item, index) => {
+  cluster.create({ id: index, point: item })
+})
 
-// Tmap.addLayer(cluster.layer)
+Tmap.addLayer(cluster.layer)
 // Tmap.on('wheel', (e) => {
 //   const t = cluster.wheel(e)
 //   console.log('%c 🥜 t: ', 'font-size:20px;background-color: #FCA650;color:#fff;', t)
 // })
+function click (e) {
+  console.log('%c 🍓 e: ', 'font-size:20px;background-color: #42b983;color:#fff;', e)
+}
 
+const tem = `<div style="width: 100px;height: 50px;background-color: #fff"><button id="test">123</button></div>`
+const clusterClick = cluster.createAlert({
+  innerHTML: tem,
+  callBack: click
+})
+Tmap.addInteraction(clusterClick)
