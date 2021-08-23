@@ -12,20 +12,20 @@ Tmap.addView({
   minZoom: 7,
   maxZoom: 18
 })
-Tmap.useTianDiTu({
-  type: ['vec', 'cva'],
-  proj: 'EPSG:4326',
-  key: 'a3f0bbf7db728e8db4ebbe860679d4bb',
-  url: 'http://t{0-7}.tianditu.gov.cn/'
-})
-// Tmap.useWMTS({
-//   type: 'bigemap.other',
-//   // matrixSet: '7to15',
-//   proj: 'EPSG:3857',
-//   // format: 'image/png',
-//   url: 'http://localhost:9001/bigemap.02n9odpy/wmts?access_token=',
-//   key: 'pk.eyJ1IjoiY3VzXzZ1NXZmOXdsIiwiYSI6IjdyYWtlaTdnaXpuandwcDJvbzJiZW1obHkiLCJ0IjoxfQ.6JBVGFNZ47dAfZl32XT1c_Xw0mstu88L7eAx6znQfLU'
+// Tmap.useTianDiTu({
+//   type: ['vec', 'cva'],
+//   proj: 'EPSG:4326',
+//   key: 'a3f0bbf7db728e8db4ebbe860679d4bb',
+//   url: 'http://t{0-7}.tianditu.gov.cn/'
 // })
+Tmap.useWMTS({
+  type: 'bigemap.other',
+  // matrixSet: '7to15',
+  proj: 'EPSG:3857',
+  // format: 'image/png',
+  url: 'http://192.168.1.101:3001/bigemap.bo43x8js/wmts?access_token=',
+  key: 'pk.eyJ1IjoiY3VzX2M0aTBscGhmIiwiYSI6ImJqeXZsdHk3N2EydmdtZXo3dzZjYnQ2cmciLCJ0IjoxfQ.2fc5YeRqKYxhQVmDJ2FSK0fXGxJrxO-UAH5q6tLI5gk'
+})
 Tmap.on('click', (e) => {
 
   // const a = Tmap._getLonLat(e)
@@ -139,10 +139,10 @@ a.forEach((item, index) => {
 })
 
 Tmap.addLayer(cluster.layer)
-// Tmap.on('wheel', (e) => {
-//   const t = cluster.wheel(e)
-//   console.log('%c 🥜 t: ', 'font-size:20px;background-color: #FCA650;color:#fff;', t)
-// })
+Tmap.on('wheel', (e) => {
+  const t = cluster.wheel(e)
+  console.log('%c 🥜 t: ', 'font-size:20px;background-color: #FCA650;color:#fff;', t)
+})
 function click (e) {
   console.log('%c 🍓 e: ', 'font-size:20px;background-color: #42b983;color:#fff;', e)
 }

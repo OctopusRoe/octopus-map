@@ -10,6 +10,7 @@
 
 import Map from 'ol/Map'
 import View from 'ol/View'
+import { getWidth, applyTransform } from 'ol/extent'
 import { defaults as InteractionDefaults } from 'ol/interaction'
 import { defaults } from 'ol/control'
 import { get } from 'ol/proj'
@@ -289,12 +290,24 @@ export class MapInit {
    * @param {Number} [options.maxZoom] 视图层的最大缩放级别
    */
   addView (options) {
+    const { maxZoom = 18, proj = 'EPSG:3857' } = options
+
+    const projection = get(proj)
+    const projectionExtent = projection.getExtent()
+    const width = projectionExtent ? getWidth(projectionExtent) : getWidth(applyTransform([-180.0, -90.0, 180.0, 90.0], fromLonLat))
+    const resolutions = []
+
+    for (let z = 1; z < maxZoom + 1; z++) {
+      resolutions[z] = width / (256 * Math.pow(2, z))
+    }
+
     this._view = new View({
-      projection: get(options.proj || 'EPSG:3857'),
+      projection: projection,
       center: options.center || [0, 0],
       zoom: options.zoom || 0,
       minZoom: options.minZoom || 0,
-      maxZoom: options.maxZoom || 18
+      maxZoom: maxZoom,
+      resolutions: resolutions
     })
 
     /** @description 添加视图层至 this._map 实例 */

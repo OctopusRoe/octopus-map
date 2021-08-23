@@ -60,6 +60,7 @@ const MATRIX_SETS = {
  * @param {String} options.proj 投影坐标系类型
  * @param {String} options.key 开发者秘钥
  * @param {String} options.url 天地图瓦片基础url
+ * @param {Number} [options.maxZoom] 最大放大级别
  */
 
 export default function useTianDiTu (options) {
@@ -72,7 +73,9 @@ export default function useTianDiTu (options) {
   const resolutions = []
   const matrixIds = []
 
-  for (let z = 1; z < 19; z++) {
+  const { maxZoom = 18 } = options
+
+  for (let z = 1; z < maxZoom + 1; z++) {
     resolutions[z] = width / (256 * Math.pow(2, z))
     matrixIds[z] = z
   }

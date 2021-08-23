@@ -22,6 +22,7 @@ import { get, getTransform } from 'ol/proj'
  * @param {options.format} String 图像格式
  * @param {options.key} String 开发者秘钥
  * @param {options.url} String 地图瓦片基础url
+ * @param {Number} [options.maxZoom] 最大放大级别
  * @returns {import('ol/layer/Tile').default} 返回 source 为 WMTS 的 TileLayer
 */
 export default function getLayerFromWMTS (options) {
@@ -34,7 +35,9 @@ export default function getLayerFromWMTS (options) {
   const resolutions = []
   const matrixIds = []
 
-  for (let z = 1; z < 19; z++) {
+  const { maxZoom = 18 } = options
+
+  for (let z = 1; z < maxZoom + 1; z++) {
     resolutions[z] = width / (256 * Math.pow(2, z))
     matrixIds[z] = z
   }

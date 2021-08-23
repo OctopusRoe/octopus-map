@@ -1,4 +1,4 @@
-## OCTOPUS-MAP API (V0.0.8)
+## OCTOPUS-MAP API (V0.0.9)
 
 
 
@@ -73,12 +73,13 @@ const Tmap = new MapInit({
 
 
 
-| 属性名 | 类型     | 必须 | 默认值 | 说明                     |
-| ------ | -------- | ---- | ------ | ------------------------ |
-| type   | String[] | true | null   | 天地图提供的数据图层数组 |
-| proj   | String   | true | null   | 天地图支持的投影坐标系   |
-| key    | String   | true | null   | 开发者秘钥               |
-| url    | String   | true | null   | 天地图的基础URL          |
+| 属性名  | 类型     | 必须  | 默认值 | 说明                     |
+| ------- | -------- | ----- | ------ | ------------------------ |
+| type    | String[] | true  | null   | 天地图提供的数据图层数组 |
+| proj    | String   | true  | null   | 天地图支持的投影坐标系   |
+| key     | String   | true  | null   | 开发者秘钥               |
+| url     | String   | true  | null   | 天地图的基础URL          |
+| maxZoom | Number   | false | 18     | 最大放大级别             |
 
 
 
@@ -109,6 +110,7 @@ Tmap.useTianDiTu({
 | format    | String | false | null      | 图像格式                     |
 | key       | String | false | null      | 开发者秘钥                   |
 | url       | String | true  | null      | WMTS服务的基础url            |
+| maxZoom   | Number | false | 18        | 最大放大级别                 |
 
 
 
