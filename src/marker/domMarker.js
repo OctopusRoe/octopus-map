@@ -87,9 +87,6 @@ export default class DomMarker {
     // 保存到 div 上时,清除 innerHTML 属性
     delete options.innerHTML
 
-    // 给容器添加 data-item 属性,并且添加值
-    div.setAttribute('data-item', JSON.stringify(options))
-
     // 创建 Overlay 实例
     const overlay = new Overlay({
       id: options.id,
@@ -99,6 +96,9 @@ export default class DomMarker {
 
     // 给 Overlay 实例添加 name 属性和值
     overlay.set('name', options.name || 'overlay')
+
+    // 给 Overlay 实例上添加传入的数据
+    overlay.set('data', options)
 
     // 返回 Overlay 实例
     return overlay
@@ -151,13 +151,11 @@ export default class DomMarker {
    */
   addClick (callBack) {
     this._overlay.forEach(item => {
-      const element = item.getElement()
-
       // 添加监听事件
       element.addEventListener('click', () => {
         callBack && callBack({
           zoom: parseInt(this._options.map.getView().getZoom()),
-          item: JSON.parse(element.getAttribute('data-item'))
+          item: item.get('data')
         })
       })
     })

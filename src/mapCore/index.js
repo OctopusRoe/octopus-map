@@ -329,9 +329,8 @@ export class MapInit {
    */
   addLayer (options) {
     if (Array.isArray(options)) {
-      this._layers = this._layers.concat(options)
       options.forEach(item => {
-        this._map.addLayer(item)
+        this.addLayer(item)
       })
     } else {
       this._layers.push(options)
@@ -406,9 +405,8 @@ export class MapInit {
    */
   addOverlay (options) {
     if (Array.isArray(options)) {
-      this._overlays.push(...options)
       options.forEach(item => {
-        this._map.addOverlay(item)
+        this.addOverlay(item)
       })
     } else {
       this._overlays.push(options)
@@ -481,9 +479,8 @@ export class MapInit {
    */
   addInteraction (options) {
     if (Array.isArray(options)) {
-      this._interactions = this._interactions.concat(options)
       options.forEach(item => {
-        this._map.addInteraction(item)
+        this.addInteraction(item)
       })
     } else {
       this._interactions.push(options)
