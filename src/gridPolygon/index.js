@@ -179,11 +179,11 @@ export default class GridPolygon extends BaseFeature {
   /**
    * @description 添加选择高亮功能
    *
-   * @param {String} name interaction 实例的名字,默认为 select
    * @param {Function} callBack 回调函数
+   * @param {String} name interaction 实例的名字,默认为 select
    * @return {import('ol/interaction/Select').default} interaction 实例
    */
-  addSelect (name, callBack) {
+  addSelect (callBack, name) {
     this._select.push(
       new Select({
         condition: pointerMove,
@@ -208,8 +208,8 @@ export default class GridPolygon extends BaseFeature {
   /**
    * @description 添加鼠标左键事件
    *
-   * @param {String} name interaction 实例的名字
    * @param {Function} callBack 回调函数
+   * @param {String} name interaction 实例的名字
    * @returns {import('ol/interaction/Select').default} interaction 的实例
    */
   addClick (callBack, name) {
@@ -238,8 +238,8 @@ export default class GridPolygon extends BaseFeature {
   /**
    * @description 添加鼠标右键功能
    *
-   * @param {String} name interaction 的名字
    * @param {Function} callBack 回调函数
+   * @param {String} name interaction 的名字
    * @returns {import('ol/interaction/Select').default} interaction 的实例
    */
   addRightClick (callBack, name) {

@@ -1,4 +1,4 @@
-## OCTOPUS-MAP API (V0.0.9)
+## OCTOPUS-MAP API (V0.0.19)
 
 
 
@@ -783,14 +783,14 @@ gridPolygon.create({
 
 | 方法名                    | 返回        | 说明                                                         |
 | ------------------------- | ----------- | ------------------------------------------------------------ |
-| addSelect(name, callBack) | Interaction | 添加选择功能, 选择高亮功能, 需要配置 GridPolygon 实例的 hoverColor 属性 |
+| addSelect(callBack, name) | Interaction | 添加选择功能, 选择高亮功能, 需要配置 GridPolygon 实例的 hoverColor 属性 |
 
 
 
 | 参数名   | 类型     | 必须  | 默认值 | 说明               |
 | -------- | -------- | ----- | ------ | ------------------ |
-| name     | String   | false | null   | Interaction 的名字 |
 | callBack | Function | false | null   | 回调函数           |
+| name     | String   | false | null   | Interaction 的名字 |
 
 
 
@@ -798,14 +798,14 @@ gridPolygon.create({
 
 | 方法名                   | 返回        | 说明             |
 | ------------------------ | ----------- | ---------------- |
-| addClick(name, callBack) | Interaction | 添加鼠标左键事件 |
+| addClick(callBack, name) | Interaction | 添加鼠标左键事件 |
 
 
 
 | 参数名   | 类型     | 必须  | 默认值 | 说明               |
 | -------- | -------- | ----- | ------ | ------------------ |
-| name     | String   | false | null   | Interaction 的名字 |
 | callBack | Function | false | null   | 回调函数           |
+| name     | String   | false | null   | Interaction 的名字 |
 
 
 
@@ -813,14 +813,14 @@ gridPolygon.create({
 
 | 方法名                        | 返回        | 说明             |
 | ----------------------------- | ----------- | ---------------- |
-| addRightClick(name, callBack) | Interaction | 添加鼠标右键功能 |
+| addRightClick(callBack, name) | Interaction | 添加鼠标右键功能 |
 
 
 
 | 参数名   | 类型     | 必须  | 默认值 | 说明               |
 | -------- | -------- | ----- | ------ | ------------------ |
-| name     | String   | false | null   | Interaction 的名字 |
 | callBack | Function | false | null   | 回调函数           |
+| name     | String   | false | null   | Interaction 的名字 |
 
 
 

@@ -1,6 +1,6 @@
 {
   "name": "octopus-map",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "",
   "private": false,
   "main": "lib/index",
