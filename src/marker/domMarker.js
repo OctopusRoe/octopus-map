@@ -151,6 +151,8 @@ export default class DomMarker {
    */
   addClick (callBack) {
     this._overlay.forEach(item => {
+      const element = item.getElement()
+
       // 添加监听事件
       element.addEventListener('click', () => {
         callBack && callBack({
