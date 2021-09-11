@@ -13,6 +13,8 @@ import { Vector as VectorSource } from 'ol/source'
 
 export default class BaseFeature {
   constructor () {
+    this._options = { map: null }
+
     /** @description 用于储存 feature 的仓库 */
     this._feature = []
 
@@ -33,12 +35,12 @@ export default class BaseFeature {
 
   /** @description 获取 interaction 仓库 */
   get interaction () {
-    return this._select
+    return this._select.concat()
   }
 
   /** @description 获取 feature 仓库 */
   get feature () {
-    return this._feature
+    return this._feature.concat()
   }
 
   /** @description 把 Feature 加入 source */
@@ -100,11 +102,7 @@ export default class BaseFeature {
   removeFeature (options) {
     if (Array.isArray(options)) {
       options.forEach(item => {
-        const { index: index } = this.searchFeature(item.get('name'))
-        if (index || index !== undefined) {
-          this._feature.splice(index, 1)
-          this._source.removeFeature(item)
-        }
+        this.removeFeature(item)
       })
     } else {
       const { index: index } = this.searchFeature(options.get('name'))
@@ -162,15 +160,13 @@ export default class BaseFeature {
   removeInteraction (options) {
     if (Array.isArray(options)) {
       options.forEach(item => {
-        const { index: index } = this.searchInteraction(item.get('name'))
-        if (index || index !== undefined) {
-          this._select.splice(index, 1)
-        }
+        this.removeInteraction(item)
       })
     } else {
       const { index: index } = this.searchInteraction(options.get('name'))
       if (index || index !== undefined) {
         this._select.splice(index, 1)
+        this._options.map && this._options.map.removeInteraction(options)
       }
     }
   }

@@ -12,62 +12,62 @@ Tmap.addView({
   minZoom: 7,
   maxZoom: 18
 })
-// Tmap.useTianDiTu({
-//   type: ['vec', 'cva'],
-//   proj: 'EPSG:4326',
-//   key: 'a3f0bbf7db728e8db4ebbe860679d4bb',
-//   url: 'http://t{0-7}.tianditu.gov.cn/'
+Tmap.useTianDiTu({
+  type: ['vec', 'cva'],
+  proj: 'EPSG:4326',
+  key: 'a3f0bbf7db728e8db4ebbe860679d4bb',
+  url: 'http://t{0-7}.tianditu.gov.cn/'
+})
+// Tmap.useWMTS({
+//   type: 'bigemap.other',
+//   // matrixSet: '7to15',
+//   proj: 'EPSG:3857',
+//   // format: 'image/png',
+//   url: 'http://192.168.1.101:3001/bigemap.bo43x8js/wmts?access_token=',
+//   key: 'pk.eyJ1IjoiY3VzX2M0aTBscGhmIiwiYSI6ImJqeXZsdHk3N2EydmdtZXo3dzZjYnQ2cmciLCJ0IjoxfQ.2fc5YeRqKYxhQVmDJ2FSK0fXGxJrxO-UAH5q6tLI5gk'
 // })
-Tmap.useWMTS({
-  type: 'bigemap.other',
-  // matrixSet: '7to15',
-  proj: 'EPSG:3857',
-  // format: 'image/png',
-  url: 'http://192.168.1.101:3001/bigemap.bo43x8js/wmts?access_token=',
-  key: 'pk.eyJ1IjoiY3VzX2M0aTBscGhmIiwiYSI6ImJqeXZsdHk3N2EydmdtZXo3dzZjYnQ2cmciLCJ0IjoxfQ.2fc5YeRqKYxhQVmDJ2FSK0fXGxJrxO-UAH5q6tLI5gk'
-})
-Tmap.on('click', (e) => {
+// Tmap.on('click', (e) => {
 
-  // const a = Tmap._getLonLat(e)
-  //
-})
+//   // const a = Tmap._getLonLat(e)
+//   //
+// })
 // document.getElementById('root').addEventListener('click', e => {
 //   console.log('%c 🍅 Tmap.getLonLat(e): ', 'font-size:20px;background-color: #465975;color:#fff;', Tmap.getLonLat(e))
 // })
 
-const test = Tmap.Text({ name: 'test', color: '#fff',
-  background: {
-  // url: 'http://bbs.gd163.cn/UpFile/UpAttachment/2015-11/20151110184126.jpg'
-    color: 'blue'
-  },
-  condition: { }
-})
+// const test = Tmap.Text({ name: 'test', color: '#fff',
+//   background: {
+//   // url: 'http://bbs.gd163.cn/UpFile/UpAttachment/2015-11/20151110184126.jpg'
+//     color: 'blue'
+//   },
+//   condition: { }
+// })
 const a = [
   [115.890445, 28.674833],
   [115.904642, 28.680854],
   [115.898654, 28.684034],
   [115.899881, 28.68228]
 ]
-a.forEach((item, index) => {
-  test.create({ label: `测试${index + 1}`, point: item })
-})
+// a.forEach((item, index) => {
+//   test.create({ label: `测试${index + 1}`, point: item })
+// })
 
-Tmap.addLayer(test.layer)
+// Tmap.addLayer(test.layer)
 
 /* ****************** 网格 ****************** */
-const grid = Tmap.GridPolygon()
-grid.create({
-  point: [one],
-  name: 'test',
-  label: 'test'
-})
-const add = grid.addSelect('testSelect', e => {
-  console.log('%c 🍮 e: ', 'font-size:20px;background-color: #42b983;color:#fff;', e)
-})
-Tmap.addInteraction(add)
-Tmap.addLayer(grid.layer)
-const select = grid.addSelect()
-Tmap.addInteraction(select)
+// const grid = Tmap.GridPolygon()
+// grid.create({
+//   point: [one],
+//   name: 'test',
+//   label: 'test'
+// })
+// const add = grid.addSelect('testSelect', e => {
+//   console.log('%c 🍮 e: ', 'font-size:20px;background-color: #42b983;color:#fff;', e)
+// })
+// Tmap.addInteraction(add)
+// Tmap.addLayer(grid.layer)
+// const select = grid.addSelect()
+// Tmap.addInteraction(select)
 /* ****************** 网格 ****************** */
 
 /* ****************** 动画 ****************** */
@@ -79,20 +79,20 @@ trajectory.create({
   route: a
 })
 
-// trajectory.start()
+trajectory.start()
 
 /* ****************** 动画 ****************** */
 
-// // const Mark = Tmap.IconMarker({ icon: require('./car.png').default })
-// // const iconMark = Mark.create({ point: [115, 28], name: 'iconMark', label: '张雄飞是2货' })
-// // console.log('%c 🍛 iconMark: ', 'font-size:20px;background-color: #4b4b4b;color:#fff;', iconMark)
-// // Tmap.addLayer(Mark.layer)
+// const Mark = Tmap.IconMarker({ icon: require('./car.png').default })
+// const iconMark = Mark.create({ point: [115, 28], name: 'iconMark', label: '张雄飞是2货' })
+// console.log('%c 🍛 iconMark: ', 'font-size:20px;background-color: #4b4b4b;color:#fff;', iconMark)
+// Tmap.addLayer(Mark.layer)
 /* ****************** 动画 ****************** */
 
 /* ****************** 热力 ****************** */
-const heat = Tmap.HeatMap({ name: 'heatTest', blur: 40, radius: 40 })
-heat.create({ point: [115.890445, 28.674833], weight: 0.9 })
-Tmap.addLayer(heat.layer)
+// const heat = Tmap.HeatMap({ name: 'heatTest', blur: 40, radius: 40 })
+// heat.create({ point: [115.890445, 28.674833], weight: 0.9 })
+// Tmap.addLayer(heat.layer)
 
 /* ****************** 热力 ****************** */
 
@@ -132,24 +132,24 @@ Tmap.addLayer(heat.layer)
 
 /* ****************** 修改网格 **************** */
 
-const cluster = Tmap.ClusterPoint({ iconUrl: require('./car.png').default })
+// const cluster = Tmap.ClusterPoint({ iconUrl: require('./car.png').default })
 
-a.forEach((item, index) => {
-  cluster.create({ id: index, point: item })
-})
+// a.forEach((item, index) => {
+//   cluster.create({ id: index, point: item })
+// })
 
-Tmap.addLayer(cluster.layer)
-Tmap.on('wheel', (e) => {
-  const t = cluster.wheel(e)
-  console.log('%c 🥜 t: ', 'font-size:20px;background-color: #FCA650;color:#fff;', t)
-})
-function click (e) {
-  console.log('%c 🍓 e: ', 'font-size:20px;background-color: #42b983;color:#fff;', e)
-}
+// Tmap.addLayer(cluster.layer)
+// Tmap.on('wheel', (e) => {
+//   const t = cluster.wheel(e)
+//   console.log('%c 🥜 t: ', 'font-size:20px;background-color: #FCA650;color:#fff;', t)
+// })
+// function click (e) {
+//   console.log('%c 🍓 e: ', 'font-size:20px;background-color: #42b983;color:#fff;', e)
+// }
 
-const tem = `<div style="width: 100px;height: 50px;background-color: #fff"><button id="test">123</button></div>`
-const clusterClick = cluster.createAlert({
-  innerHTML: tem,
-  callBack: click
-})
-Tmap.addInteraction(clusterClick)
+// const tem = `<div style="width: 100px;height: 50px;background-color: #fff"><button id="test">123</button></div>`
+// const clusterClick = cluster.createAlert({
+//   innerHTML: tem,
+//   callBack: click
+// })
+// Tmap.addInteraction(clusterClick)

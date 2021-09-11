@@ -119,8 +119,8 @@ export default class ClusterPoint extends BaseFeature {
           fill: new Fill({
             color: this._options.fontColor || 'rgba(255, 255, 255, 1)'
           }),
-          offsetx: this._options.offsetX && this._options.offset[0] || 0,
-          offsetY: this._options.offsetY && this._options.offset[1] || 0
+          offsetX: this._options.offset ? this._options.offset[0] : 0,
+          offsetY: this._options.offset ? this._options.offset[1] : 0
         })
       })
 
@@ -192,8 +192,16 @@ export default class ClusterPoint extends BaseFeature {
     select.set('name', name || 'clusterPointClick')
 
     select.on('select', e => {
+      // 判断是否是最后一级
+      if (parseInt(this._options.map.getView().getZoom()) < 18) {
+        // 设置放大一级
+        this._options.map.getView().setZoom(parseInt(this._options.map.getView().getZoom()) + 1)
+        // 设置放大中心点
+        this._options.map.getView().setCenter(e.selected[0].get('geometry').getCoordinates())
+      }
       if (this._options.map.getView().getZoom() < (minZoom || 18)) return
       if (e.selected.length === 0) return
+      if (e.selected[0].get('features').length > 1) return
       callBack && callBack({
         zoom: parseInt(this._options.map.getView().getZoom()),
         item: e.selected[0].get('features')[0].get('item')

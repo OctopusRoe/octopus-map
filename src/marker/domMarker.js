@@ -16,6 +16,7 @@ import Overlay from 'ol/Overlay'
  * @property {String} id 设置 Dom 容器的 ID
  * @property {String} label Dom 标注的提示信息
  * @property {Number[]} point 点位置的数组
+ * @property {Element | String | undefined} [innerHTML] dom 或者 dom 字符串模板
  */
 
 export default class DomMarker {
@@ -26,7 +27,7 @@ export default class DomMarker {
    * @param {import('ol/map').default} options.map openlayers 的 Map 实例
    * @param {Array<import('ol/Overlay').default>} options.overlay Overlay 实例的数组
    * @param {Number[]} options.offset overlay 整体偏移量
-   * @param {String} options.innerHTML dom 字符串模板
+   * @param {Element | String | undefined} [options.innerHTML] dom 字符串模板
    * @param {Boolean} options.useTitle 是否使用 dom 标签的 title 属性
    */
   constructor (options) {
@@ -39,7 +40,7 @@ export default class DomMarker {
 
   /** @description 获取 overlay 数组 */
   get overlays () {
-    return this._overlay
+    return this._overlay.concat()
   }
 
   /**
@@ -62,11 +63,19 @@ export default class DomMarker {
     // 创建 dom 容器
     const div = this._createMarkElement()
 
-    // 把字符串模板塞入容器
-    if (this._options.innerHTML instanceof Element) {
-      div.insertAdjacentElement('afterbegin', this._options.innerHTML)
+    if (options.innerHTML) {
+      if (options.innerHTML instanceof Element) {
+        div.insertAdjacentElement('afterbegin', options.innerHTML)
+      } else {
+        div.insertAdjacentHTML('afterbegin', options.innerHTML)
+      }
     } else {
-      div.insertAdjacentHTML('afterbegin', this._options.innerHTML)
+      // 把字符串模板塞入容器
+      if (this._options.innerHTML instanceof Element) {
+        div.insertAdjacentElement('afterbegin', this._options.innerHTML)
+      } else {
+        div.insertAdjacentHTML('afterbegin', this._options.innerHTML)
+      }
     }
 
     // 判断是否使用 title 属性
@@ -74,6 +83,9 @@ export default class DomMarker {
       // 给容器添加 title 属性
       div.title = options.label
     }
+
+    // 保存到 div 上时,清除 innerHTML 属性
+    delete options.innerHTML
 
     // 给容器添加 data-item 属性,并且添加值
     div.setAttribute('data-item', JSON.stringify(options))
@@ -114,6 +126,7 @@ export default class DomMarker {
    * @description 暴露到外部的实例方法
    *
    * @param {createPointOptions | createPointOptions[]} options 创建点的配置
+   * @param {Element | String | undefined} [innerHTML] Element dom 节点或者HTML 字符串模板
    */
   create (options) {
     if (Array.isArray(options)) {
@@ -200,14 +213,7 @@ export default class DomMarker {
   removeOverlay (options) {
     if (Array.isArray(options)) {
       options.forEach(item => {
-        const { index: i } = this._search(item.get('name'), this._options.overlay)
-        const { index: index } = this._search(item.get('name'), this._overlay)
-        if (i !== undefined && index !== undefined) {
-          this._overlay.splice(index, 1)
-          this._options.overlay.splice(i, 1)
-
-          this._options.map.removeOverlay(item)
-        }
+        this.removeOverlay(item)
       })
     } else {
       const { index: i } = this._search(options.get('name'), this._options.overlay)

@@ -76,7 +76,7 @@ export function gcjToBd (GCJArray) {
 export function wgsToGcj (WGSArray) {
   const lng = WGSArray[0]
   const lat = WGSArray[1]
-  if (out_of_china(lng, lat)) {
+  if (outOfChina(lng, lat)) {
     return WGSArray
   } else {
     var dlat = transformlat(lng - 105.0, lat - 35.0)

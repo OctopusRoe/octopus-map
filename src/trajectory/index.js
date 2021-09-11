@@ -13,7 +13,7 @@ import { Vector as VectorLayer } from 'ol/layer'
 import { Vector as VectorSource } from 'ol/source'
 import { Point, LineString } from 'ol/geom'
 import { getVectorContext } from 'ol/render'
-import { Style, Icon, Stroke } from 'ol/style'
+import { Style, Icon, Stroke, Circle, Fill } from 'ol/style'
 import { unByKey } from 'ol/Observable'
 
 const PI = 3.1415926535897932384626
@@ -25,6 +25,7 @@ const halfPI = PI / 2
  * @typedef {Object} style
  * @property {Number} [strokeWidth] 路径的宽度,默认为5
  * @property {String} [strokeColor] 路径的颜色,与 css 的 color 字段一样,默认为 #000
+ * @property {String} [markColor] 节点的颜色
  * @property {Number[]} [lineDash] 路径的线段样式
  * @property {String} [lineDashColor] 路径的线段颜色
  */
@@ -66,7 +67,7 @@ export default class Trajectory {
     this._feature = []
 
     /** @description 用于储存路径的仓库 */
-    this._route = null
+    this._route = []
 
     /** @description 用于储存已经经过的路径仓库 */
     this._newRoute = []
@@ -89,7 +90,7 @@ export default class Trajectory {
 
   /** @description 获取轨迹的路径 LineString 对象 */
   get route () {
-    return this._route
+    return this._route.concat()
   }
 
   /** @description 获取动画的 layer 对象 */
@@ -114,6 +115,18 @@ export default class Trajectory {
       })
     })
 
+    const mark = new Style({
+      image: new Circle({
+        radius: style && style.strokeWidth - 1 || 4,
+        fill: new Fill({
+          color: style && style.markColor || 'rgba(0, 0, 0, 1)'
+        }),
+        stroke: new Stroke({
+          width: 1,
+          color: '#fff'
+        })
+      })
+    })
     // 创建 icon 样式
     const geoMarker = new Style({
       image: new Icon({
@@ -124,13 +137,13 @@ export default class Trajectory {
     // 创建已经过路径
     const lineDash = new Style({
       stroke: new Stroke({
-        width: style && style.strokeWidth || 5,
+        width: style && style.strokeWidth + 1 || 6,
         color: style && style.lineDashColor || 'rgba(0, 0, 0 ,1)',
         lineDash: style && style.lineDash || [10, 10]
       })
     })
 
-    return { route, geoMarker, lineDash, startMarker: null, endMarker: null }
+    return { route, mark, geoMarker, lineDash, startMarker: null, endMarker: null }
   }
 
   /**
@@ -175,6 +188,15 @@ export default class Trajectory {
       geometry: this._route
     })
 
+    // 创建节点的 Feature 实例
+    const mark = this._route.getCoordinates().map(item => (
+      new Feature({
+        type: 'mark',
+        name: options || 'trajectory',
+        geometry: new Point(item)
+      })
+    ))
+
     // 创建标记的 Feature 实例
     const geoMarker = new Feature({
       type: 'geoMarker',
@@ -195,8 +217,8 @@ export default class Trajectory {
       name: options || 'trajectory',
       geometry: new Point(this._route.getCoordinateAt(1))
     })
-    this._source.addFeatures([route, geoMarker, startMarker, endMarker])
-    return [route, geoMarker, startMarker, endMarker]
+    this._source.addFeatures([route, geoMarker, startMarker, endMarker, ...mark])
+    return [route, geoMarker, startMarker, endMarker, ...mark]
   }
 
   /**
@@ -271,7 +293,7 @@ export default class Trajectory {
       // 创建一个 Feature 实例
       const lineStringFeature = new Feature(lineString)
 
-      // 吧 Feature 实例渲染进 canvas
+      // 把 Feature 实例渲染进 canvas
       vectorContext.drawFeature(lineStringFeature, this._style['lineDash'])
       // 把 Feature 实例渲染进 canvas
       vectorContext.drawFeature(feature, this._style['geoMarker'])

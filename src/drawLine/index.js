@@ -63,7 +63,7 @@ export default class DrawLine {
 
   /** @description 返回 _select 仓库中的所有 interaction 实例 */
   get interactions () {
-    return this._select
+    return this._select.concat()
   }
 
   /** @description 返回 layer 实例 */
@@ -286,10 +286,7 @@ export default class DrawLine {
   removeInteraction (options) {
     if (Array.isArray(options)) {
       options.forEach(item => {
-        const { index: index } = this.searchInteraction(item.get('name'))
-        if (index || index !== undefined) {
-          this._select.splice(index, 1)
-        }
+        this.removeInteraction(item)
       })
     } else {
       const { index: index } = this.searchInteraction(options.get('name'))

@@ -105,17 +105,17 @@ export class MapInit {
 
   /** @description 返回全部的 layer */
   get layers () {
-    return this._layers
+    return this._layers.concat()
   }
 
   /** @description 返回全部的 interaction */
   get interactions () {
-    return this._interactions
+    return this._interactions.concat()
   }
 
   /** @description 返回全部的 overlay */
   get overlays () {
-    return this._overlays
+    return this._overlays.concat()
   }
 
   /**
@@ -200,7 +200,7 @@ export class MapInit {
    * @param {Number} [options.radius] 热点半径
    */
   HeatMap (options) {
-    return new HeatMap(options)
+    return new HeatMap({ ...options, map: this._map })
   }
 
   /**
@@ -389,11 +389,7 @@ export class MapInit {
   removeLayer (options) {
     if (Array.isArray(options)) {
       options.forEach(item => {
-        const { index: index } = this.searchLayer(item.get('name'))
-        if (index || index !== undefined) {
-          this._layers.splice(index, 1)
-          this._map.removeLayer(item)
-        }
+        this.removeLayer(item)
       })
     } else {
       const { index: index } = this.searchLayer(options.get('name'))
@@ -465,10 +461,17 @@ export class MapInit {
   /**
    * @description 移除全部的 Overlay 实例
    */
-  removeOverlay () {
-    this._overlays.forEach(item => {
-      this._map.removeOverlay(item)
-    })
+  removeOverlay (options) {
+    if (Array.isArray(options)) {
+      options.forEach(item => {
+        this.removeOverlay(item)
+      })
+    } else {
+      const { index: index } = this.searchOverlay(options.get('name'))
+      if (index === undefined) return
+      this._overlays.splice(index, 1)
+      this._map.removeOverlay(options)
+    }
   }
 
   /**
@@ -538,11 +541,7 @@ export class MapInit {
   removeInteraction (options) {
     if (Array.isArray(options)) {
       options.forEach(item => {
-        const { index: index } = this.searchInteraction(item.get('name'))
-        if (index || index !== undefined) {
-          this._interactions.splice(index, 1)
-          this._map.removeInteraction(item)
-        }
+        this.removeInteraction(item)
       })
     } else {
       const { index: index } = this.searchInteraction(options.get('name'))
@@ -673,6 +672,21 @@ export class MapInit {
     }
 
     return coordinates
+  }
+
+  /**
+   * @description 清除实例仓库中的全部数据
+   */
+  clear () {
+    if (this.layers.length !== 0) {
+      this.removeLayer(this.layers)
+    }
+    if (this.overlays.length !== 0) {
+      this.removeOverlay(this.overlays)
+    }
+    if (this.interactions.length !== 0) {
+      this.removeInteraction(this.interactions)
+    }
   }
 
   render () {

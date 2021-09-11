@@ -327,6 +327,14 @@ Tmap.addView({
 
 
 
+##### clear
+
+| 方法名  | 返回 | 说明                                                         |
+| ------- | ---- | ------------------------------------------------------------ |
+| clear() | null | 清除 MapInit 实例的 layers, overlayers, interactions  仓库中的全部实例 |
+
+
+
 ##### setCenter
 
 | 方法名             | 返回 | 说明               |
@@ -1118,13 +1126,13 @@ iconMarker.createAlert({
 
 
 ```javascript
-const domeMarker = Tmap.Domemarker({
+const domeMarker = Tmap.DomMarker({
     offset: [0, 10],
     innerHtML: `<div><img src="http://www.xxxxxxxx.com/xxxxxxx" /></div>`,
     useTitle: true
 })
 
-const domeMarker = Tmap.DomeMarker({
+const domeMarker = Tmap.DomMarker({
     offset: [0, 10],
     innerHTML: document.getElementById('Dom'),
     useTitle: true
@@ -1176,9 +1184,9 @@ domeMarker.create({
 
 ##### addClick
 
-| 方法名             | 返回 | 说明     |
-| ------------------ | ---- | -------- |
-| addClick(callBack) | null | 添加事件 |
+| 方法名             | 返回        | 说明     |
+| ------------------ | ----------- | -------- |
+| addClick(callBack) | Interaction | 添加事件 |
 
 
 
@@ -1248,7 +1256,7 @@ domeMarker.create({
 | ------- | ------------------------------------------------------------ | ----- | ------------------------------------------------------------ | --------------------- |
 | iconUrl | String                                                       | true  | null                                                         | 动画图片吧的 Url 地址 |
 | name    | String                                                       | true  | null                                                         | Layer 实例的名字      |
-| style   | {strokeWidth: Number, strokeColor: String, lineDash: Number[], lineDashColor: String} | false | {strokeWidth: 5, strokeColor: '#fff', lineDash: [10, 10], lineDashColor: '#000'} | 路径的线段样式        |
+| style   | {strokeWidth: Number,markColor: String strokeColor: String, lineDash: Number[], lineDashColor: String} | false | {strokeWidth: 5, markColor: '#000' strokeColor: '#fff', lineDash: [10, 10], lineDashColor: '#000'} | 路径的线段样式        |
 | speed   | Number                                                       | false | 0.1                                                          | 动画速度              |
 | repeat  | Boolean                                                      | false | false                                                        | 是否重复              |
 
@@ -1263,6 +1271,7 @@ const trajectory = Tmap.Trajectory({
     style: {
         strokeWidth: 10,
         strokeColor: 'blue',
+        markColor: 'red'
         lineDash: [20, 20],
         lineDashColor: 'yellow'
     }
