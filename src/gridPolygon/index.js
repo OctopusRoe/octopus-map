@@ -12,6 +12,7 @@ import BaseFeature from '../baseFeature'
 import Feature from 'ol/Feature'
 import Polygon from 'ol/geom/Polygon'
 import Select from 'ol/interaction/Select'
+import { boundingExtent, getCenter } from 'ol/extent'
 import { Vector as VectorLayer } from 'ol/layer'
 import { Vector as VectorSource } from 'ol/source'
 import { click, pointerMove } from 'ol/events/condition'
@@ -263,5 +264,18 @@ export default class GridPolygon extends BaseFeature {
     })
 
     return this._select[this._select.length - 1]
+  }
+
+  /**
+   * @description 获取 Feature 的中心点
+   *
+   * @param {import('ol/Feature').default} options 传入的 Feature 实例
+   * @return {Number[]} 返回一个经纬度数组
+   */
+  getCenterCoordinates (options) {
+    const extent = boundingExtent(options.getGeometry().getCoordinates()[0])
+    const center = getCenter(extent)
+
+    return center
   }
 }

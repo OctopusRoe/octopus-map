@@ -14,9 +14,10 @@ import Overlay from 'ol/Overlay'
  * @typedef createPointOptions
  * @property {String} name overlay 的名字
  * @property {String} id 设置 Dom 容器的 ID
- * @property {String} label Dom 标注的提示信息
  * @property {Number[]} point 点位置的数组
+ * @property {String} label Dom 标注的提示信息
  * @property {Element | String | undefined} [innerHTML] dom 或者 dom 字符串模板
+ * @property {Number} [zIndex] dom 的层级
  */
 
 export default class DomMarker {
@@ -62,6 +63,8 @@ export default class DomMarker {
   _createOneOverlay (options) {
     // 创建 dom 容器
     const div = this._createMarkElement()
+
+    div.style.zIndex = options.zIndex ? options.zIndex : 10
 
     if (options.innerHTML) {
       if (options.innerHTML instanceof Element) {

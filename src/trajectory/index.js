@@ -9,6 +9,7 @@
  */
 
 import Feature from 'ol/Feature'
+import { boundingExtent, getCenter } from 'ol/extent'
 import { Vector as VectorLayer } from 'ol/layer'
 import { Vector as VectorSource } from 'ol/source'
 import { Point, LineString } from 'ol/geom'
@@ -89,6 +90,9 @@ export default class Trajectory {
 
     /** @description 创建样式 */
     this._style = this._createStyle(options)
+
+    /** @description 用于保存 geoMarker Feature 的几何形状 */
+    this._geoMarkerGeometry = null
   }
 
   /** @description 获取轨迹的路径 LineString 对象 */
@@ -134,7 +138,7 @@ export default class Trajectory {
     const geoMarker = new Style({
       image: new Icon({
         src: options.iconUrl,
-        scale: toSize(style.iconSize ? style.iconSize : 1)
+        scale: toSize(style && style.iconSize ? style.iconSize : 1)
       })
     })
 
@@ -317,7 +321,10 @@ export default class Trajectory {
     * @param {Boolean} repeat 是否重复
     */
   _stopAnimation (options, repeat) {
+    // 获取名称为 geoMarker 的 Feature
     const geoMarker = this._searchType('geoMarker')
+    // 重新设置 geoMarker 的几何形状
+    geoMarker.setGeometry(this._geoMarkerGeometry)
 
     this._animating = false
 
@@ -380,6 +387,15 @@ export default class Trajectory {
         this._listenKey = this._layer.on('postrender', this._animation.bind(this))
         // 渲染地图
         this._options.map.render()
+
+        // 查询名称为 geoMarker 的 Feature
+        const geoMarker = this._searchType('geoMarker')
+
+        // 保存 geoMarker Feature 的几何形状
+        this._geoMarkerGeometry = geoMarker.getGeometry()
+
+        // 设置名称为 geoMarker 的 Feature 几何形状为 null
+        geoMarker.setGeometry(null)
       }
     })
   }
@@ -387,6 +403,19 @@ export default class Trajectory {
   /** @description 停止动画的方法 */
   stop () {
     this._stopAnimation(false, false)
+  }
+
+  /**
+   * @description 获取范围的中心点
+   *
+   * @param {Array<Number[]>} route 实例返回的 route
+   * @return {Number[]} 返回一个经纬度数组
+   */
+  getCenterCoordinates (route) {
+    const extent = boundingExtent(route[0])
+    const center = getCenter(extent)
+
+    return center
   }
 }
 
@@ -404,7 +433,11 @@ function screen (arr, options) {
   const endMark = arr.pop()
 
   // 获取筛选参数
-  const minIndex = Math.Circle(arr.length / options)
+  let minIndex = Math.ceil(Math.ceil(arr.length / options) / options)
+
+  if (minIndex <= 0) {
+    minIndex = 2
+  }
 
   // 保存的 Index 索引
   let saveIndex = 0

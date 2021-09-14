@@ -1,4 +1,4 @@
-## OCTOPUS-MAP API (V0.0.22)
+## OCTOPUS-MAP API (V0.0.25)
 
 
 
@@ -904,6 +904,20 @@ Tmap.addInteraction(addRightClick)
 
 
 
+##### getCenterCoordinates
+
+| 方法名                        | 返回     | 说明                  |
+| ----------------------------- | -------- | --------------------- |
+| getCenterCoordinates(options) | Number[] | 获取 Feature 的中心点 |
+
+
+
+| 属性名  | 类型    | 必须 | 默认值 | 说明                                                |
+| ------- | ------- | ---- | ------ | --------------------------------------------------- |
+| options | Feature | true | null   | Feature 实例, 本类型可以使用 feature 属性返回的数据 |
+
+
+
 ### IconMarker 类
 
 创建 Icon 类型的标注
@@ -1163,12 +1177,14 @@ const domeMarker = Tmap.DomMarker({
 | ------- | ------------------ | ---- | ------ | -------------------- |
 | options | Object \| Object[] | true | null   | 标注的配置或配置数组 |
 
-| 属性名 | 类型     | 必须 | 默认值 | 说明               |
-| ------ | -------- | ---- | ------ | ------------------ |
-| name   | String   | true | null   | Overlay 实例的名字 |
-| id     | String   | true | null   | Dom 容器的 Id      |
-| point  | Number[] | true | null   | Dom 标注的位置     |
-| label  | String   | true | null   | Dom 标注的提示     |
+| 属性名    | 类型                           | 必须  | 默认值 | 说明                     |
+| --------- | ------------------------------ | ----- | ------ | ------------------------ |
+| name      | String                         | true  | null   | Overlay 实例的名字       |
+| id        | String                         | true  | null   | Dom 容器的 Id            |
+| point     | Number[]                       | true  | null   | Dom 标注的位置           |
+| label     | String                         | true  | null   | Dom 标注的提示           |
+| innerHTML | Element \| String \| undefined | false | null   | dom 或者  dom 字符串模板 |
+| zIndex    | Number                         | false | 10     | dom 的层级               |
 
 
 
@@ -1252,14 +1268,14 @@ domeMarker.create({
 
 
 
-| 属性名      | 类型                                                         | 必须  | 默认值                                                       | 说明                  |
-| ----------- | ------------------------------------------------------------ | ----- | ------------------------------------------------------------ | --------------------- |
-| iconUrl     | String                                                       | true  | null                                                         | 动画图片吧的 Url 地址 |
-| name        | String                                                       | true  | null                                                         | Layer 实例的名字      |
-| style       | {strokeWidth: Number,markColor: String strokeColor: String, lineDash: Number[], lineDashColor: String, iconSize: Number} | false | {strokeWidth: 5, markColor: '#000' strokeColor: '#fff', lineDash: [10, 10], lineDashColor: '#000', iconSize: 1} | 路径的线段样式        |
-| speed       | Number                                                       | false | 0.1                                                          | 动画速度              |
-| repeat      | Boolean                                                      | false | false                                                        | 是否重复              |
-| pointAmount | Number                                                       | false | 1                                                            | 路径上点的密度        |
+| 属性名      | 类型                                                         | 必须  | 默认值                                                       | 说明                        |
+| ----------- | ------------------------------------------------------------ | ----- | ------------------------------------------------------------ | --------------------------- |
+| iconUrl     | String                                                       | true  | null                                                         | 动画图片吧的 Url 地址       |
+| name        | String                                                       | true  | null                                                         | Layer 实例的名字            |
+| style       | {strokeWidth: Number,markColor: String strokeColor: String, lineDash: Number[], lineDashColor: String, iconSize: Number} | false | {strokeWidth: 5, markColor: '#000' strokeColor: '#fff', lineDash: [10, 10], lineDashColor: '#000', iconSize: 1} | 路径的线段样式              |
+| speed       | Number                                                       | false | 0.1                                                          | 动画速度                    |
+| repeat      | Boolean                                                      | false | false                                                        | 是否重复                    |
+| pointAmount | Number                                                       | false | 2                                                            | 路径上点的密度,数字越大越多 |
 
 
 
@@ -1362,6 +1378,20 @@ trajectory.start()
 ```javascript
 trajectory.stop()
 ```
+
+
+
+##### getCenterCoordinates
+
+| 方法名                      | 返回     | 说明             |
+| --------------------------- | -------- | ---------------- |
+| getCenterCoordinates(route) | Number[] | 获取范围的中心点 |
+
+
+
+| 属性名 | 类型            | 必须 | 默认值 | 说明                                              |
+| ------ | --------------- | ---- | ------ | ------------------------------------------------- |
+| route  | Array<Number[]> | true | null   | 范围的二维数组, 本实例可以采用route属性返回的数据 |
 
 
 

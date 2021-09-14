@@ -61,9 +61,11 @@ const a = [
 //   name: 'test',
 //   label: 'test'
 // })
-// const add = grid.addSelect('testSelect', e => {
+// const add = grid.addSelect(e => {
 //   console.log('%c 🍮 e: ', 'font-size:20px;background-color: #42b983;color:#fff;', e)
-// })
+//   console.log('%c 🍈 grid.feature[0]: ', 'font-size:20px;background-color: #4b4b4b;color:#fff;', grid.feature[0])
+//   console.log('%c 🧀 grid.getCenterCoordinates(grid.feature[0]): ', 'font-size:20px;background-color: #F5CE50;color:#fff;', grid.getCenterCoordinates(grid.feature[0]))
+// }, 'testFunction')
 // Tmap.addInteraction(add)
 // Tmap.addLayer(grid.layer)
 // const select = grid.addSelect()
@@ -79,7 +81,10 @@ trajectory.create({
   route: a
 })
 
-trajectory.start()
+setTimeout(() => {
+  console.log(1)
+  trajectory.start()
+}, 10 * 1000)
 
 /* ****************** 动画 ****************** */
 
