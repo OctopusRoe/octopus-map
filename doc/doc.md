@@ -1,4 +1,4 @@
-## OCTOPUS-MAP API (V0.0.19)
+## OCTOPUS-MAP API (V0.0.22)
 
 
 
@@ -1252,13 +1252,14 @@ domeMarker.create({
 
 
 
-| 属性名  | 类型                                                         | 必须  | 默认值                                                       | 说明                  |
-| ------- | ------------------------------------------------------------ | ----- | ------------------------------------------------------------ | --------------------- |
-| iconUrl | String                                                       | true  | null                                                         | 动画图片吧的 Url 地址 |
-| name    | String                                                       | true  | null                                                         | Layer 实例的名字      |
-| style   | {strokeWidth: Number,markColor: String strokeColor: String, lineDash: Number[], lineDashColor: String} | false | {strokeWidth: 5, markColor: '#000' strokeColor: '#fff', lineDash: [10, 10], lineDashColor: '#000'} | 路径的线段样式        |
-| speed   | Number                                                       | false | 0.1                                                          | 动画速度              |
-| repeat  | Boolean                                                      | false | false                                                        | 是否重复              |
+| 属性名      | 类型                                                         | 必须  | 默认值                                                       | 说明                  |
+| ----------- | ------------------------------------------------------------ | ----- | ------------------------------------------------------------ | --------------------- |
+| iconUrl     | String                                                       | true  | null                                                         | 动画图片吧的 Url 地址 |
+| name        | String                                                       | true  | null                                                         | Layer 实例的名字      |
+| style       | {strokeWidth: Number,markColor: String strokeColor: String, lineDash: Number[], lineDashColor: String, iconSize: Number} | false | {strokeWidth: 5, markColor: '#000' strokeColor: '#fff', lineDash: [10, 10], lineDashColor: '#000', iconSize: 1} | 路径的线段样式        |
+| speed       | Number                                                       | false | 0.1                                                          | 动画速度              |
+| repeat      | Boolean                                                      | false | false                                                        | 是否重复              |
+| pointAmount | Number                                                       | false | 1                                                            | 路径上点的密度        |
 
 
 

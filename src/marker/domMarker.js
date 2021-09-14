@@ -91,7 +91,8 @@ export default class DomMarker {
     const overlay = new Overlay({
       id: options.id,
       element: div,
-      position: options.point
+      position: options.point,
+      offset: this._options.offset ? this._options.offset : [0, 0]
     })
 
     // 给 Overlay 实例添加 name 属性和值
@@ -154,7 +155,8 @@ export default class DomMarker {
       const element = item.getElement()
 
       // 添加监听事件
-      element.addEventListener('click', () => {
+      element.addEventListener('click', (event) => {
+        event.stopPropagation()
         callBack && callBack({
           zoom: parseInt(this._options.map.getView().getZoom()),
           item: item.get('data')

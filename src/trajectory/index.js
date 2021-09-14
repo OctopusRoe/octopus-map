@@ -15,32 +15,35 @@ import { Point, LineString } from 'ol/geom'
 import { getVectorContext } from 'ol/render'
 import { Style, Icon, Stroke, Circle, Fill } from 'ol/style'
 import { unByKey } from 'ol/Observable'
+import { toSize } from 'ol/size'
 
 const PI = 3.1415926535897932384626
 const halfPI = PI / 2
 
 /**
- * @description 路径线的样式
- *
- * @typedef {Object} style
- * @property {Number} [strokeWidth] 路径的宽度,默认为5
- * @property {String} [strokeColor] 路径的颜色,与 css 的 color 字段一样,默认为 #000
- * @property {String} [markColor] 节点的颜色
- * @property {Number[]} [lineDash] 路径的线段样式
- * @property {String} [lineDashColor] 路径的线段颜色
- */
+  * @description 路径线的样式
+  *
+  * @typedef {Object} style
+  * @param {Number} [options.iconSize] icon的大小
+  * @property {Number} [strokeWidth] 路径的宽度,默认为5
+  * @property {String} [strokeColor] 路径的颜色,与 css 的 color 字段一样,默认为 #000
+  * @property {String} [markColor] 节点的颜色
+  * @property {Number[]} [lineDash] 路径的线段样式
+  * @property {String} [lineDashColor] 路径的线段颜色
+  */
 
 export default class Trajectory {
   /**
-   *
-   * @param {Object} options
-   * @param {import('ol/Map').default} map Map 实例
-   * @param {String} options.iconUrl 动画图标的 URL
-   * @param {String} [options.name] Layer 实例的名字
-   * @param {style} [options.style] 路径的线段样式
-   * @param {Number} [options.speed] 动画速度
-   * @param {Boolean} [options.repeat] 是否重复
-   */
+    *
+    * @param {Object} options
+    * @param {import('ol/Map').default} map Map 实例
+    * @param {String} options.iconUrl 动画图标的 URL
+    * @param {String} [options.name] Layer 实例的名字
+    * @param {style} [options.style] 路径的线段样式
+    * @param {Number} [options.speed] 动画速度
+    * @param {Boolean} [options.repeat] 是否重复
+    * @param {Number} [options.pointAmount] 路径上点的密度
+    */
   constructor (options) {
     /** @description 动画默认为关闭 */
     this._animating = false
@@ -99,10 +102,10 @@ export default class Trajectory {
   }
 
   /**
-   * @description 创建样式
-   *
-   * @param {Object} options 实例化类时的参数
-   */
+    * @description 创建样式
+    *
+    * @param {Object} options 实例化类时的参数
+    */
   _createStyle (options) {
     // 解构 lineSyle
     const { style } = options
@@ -130,7 +133,8 @@ export default class Trajectory {
     // 创建 icon 样式
     const geoMarker = new Style({
       image: new Icon({
-        src: options.iconUrl
+        src: options.iconUrl,
+        scale: toSize(style.iconSize ? style.iconSize : 1)
       })
     })
 
@@ -147,22 +151,22 @@ export default class Trajectory {
   }
 
   /**
-   * @description 返回样式
-   *
-   * @param {import('ol/Feature').default} feature
-   * @return {import('ol/style/Style').default} 返回 Style 实例
-   */
+    * @description 返回样式
+    *
+    * @param {import('ol/Feature').default} feature
+    * @return {import('ol/style/Style').default} 返回 Style 实例
+    */
   _returnStyle (feature) {
     if (this._animating && feature.get('type') === 'geoMarker') return null
     return this._style[feature.get('type')]
   }
 
   /**
-   * @description 根据传入的参数,返回 Feature 实例
-   *
-   * @param {String} options type 的类型
-   * @return {import('ol/Feature').default} 返回的 Feature 实例
-   */
+    * @description 根据传入的参数,返回 Feature 实例
+    *
+    * @param {String} options type 的类型
+    * @return {import('ol/Feature').default} 返回的 Feature 实例
+    */
   _searchType (options) {
     let feature
     this._feature.forEach(item => {
@@ -175,11 +179,11 @@ export default class Trajectory {
   }
 
   /**
-   * @description 创建路径的
-   *
-   * @param {String} options Feature 实例的名字
-   * @return {Array<import('ol/Feature').default>} 返回由 Feature 实例组成的一个对象组
-   */
+    * @description 创建路径的
+    *
+    * @param {String} options Feature 实例的名字
+    * @return {Array<import('ol/Feature').default>} 返回由 Feature 实例组成的一个对象组
+    */
   _createRoute (options) {
     // 创建 路径的 Feature 实例
     const route = new Feature({
@@ -196,6 +200,9 @@ export default class Trajectory {
         geometry: new Point(item)
       })
     ))
+
+    // 筛选点位的算法,建议更换个更好的
+    const midMark = screen(mark, this._options.pointAmount)
 
     // 创建标记的 Feature 实例
     const geoMarker = new Feature({
@@ -217,15 +224,15 @@ export default class Trajectory {
       name: options || 'trajectory',
       geometry: new Point(this._route.getCoordinateAt(1))
     })
-    this._source.addFeatures([route, geoMarker, startMarker, endMarker, ...mark])
-    return [route, geoMarker, startMarker, endMarker, ...mark]
+    this._source.addFeatures([route, geoMarker, startMarker, endMarker, ...midMark])
+    return [route, geoMarker, startMarker, endMarker, ...midMark]
   }
 
   /**
-   * @description 动画的核心方法, 图标移动的方法
-   *
-   * @param {Event} event Event 事件
-   */
+    * @description 动画的核心方法, 图标移动的方法
+    *
+    * @param {Event} event Event 事件
+    */
   _animation (event) {
     // 保留一个用于在事件画布上绘图的矢量上下文
     const vectorContext = getVectorContext(event)
@@ -304,11 +311,11 @@ export default class Trajectory {
   }
 
   /**
-   * @description 私有关闭方法
-   *
-   * @param {Boolean} options 是否直接到达终点
-   * @param {Boolean} repeat 是否重复
-   */
+    * @description 私有关闭方法
+    *
+    * @param {Boolean} options 是否直接到达终点
+    * @param {Boolean} repeat 是否重复
+    */
   _stopAnimation (options, repeat) {
     const geoMarker = this._searchType('geoMarker')
 
@@ -334,12 +341,12 @@ export default class Trajectory {
   }
 
   /**
-   * @description 创建轨迹动画
-   *
-   * @param {Object} options 创建轨迹动画的参数
-   * @param {String} options.name Feature 实例的名字
-   * @param {Number[][]} options.route 轨迹路径的坐标
-   */
+    * @description 创建轨迹动画
+    *
+    * @param {Object} options 创建轨迹动画的参数
+    * @param {String} options.name Feature 实例的名字
+    * @param {Number[][]} options.route 轨迹路径的坐标
+    */
   create (options) {
     const { route } = options
 
@@ -381,4 +388,38 @@ export default class Trajectory {
   stop () {
     this._stopAnimation(false, false)
   }
+}
+
+/**
+ * @description 筛选算法
+ * @param {Array} arr 需要帅选的数组
+ * @param {Number} options 筛选的参数
+ */
+function screen (arr, options) {
+  const backList = []
+
+  // 删除第一个点,并且返回
+  const startMark = arr.shift()
+  // 删除最后一项,并且返回
+  const endMark = arr.pop()
+
+  // 获取筛选参数
+  const minIndex = Math.Circle(arr.length / options)
+
+  // 保存的 Index 索引
+  let saveIndex = 0
+
+  for (let index = 0; index < arr.length; index++) {
+    if (index === saveIndex + minIndex) {
+      backList.push(arr[index])
+      saveIndex = index
+    }
+  }
+
+  // 向路径数组头部塞入开始点
+  backList.unshift(startMark)
+  // 想路径数组最后塞入结束点
+  backList.push(endMark)
+
+  return backList
 }

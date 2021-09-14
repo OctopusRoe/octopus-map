@@ -197,7 +197,9 @@ export default class ClusterPoint extends BaseFeature {
         // 设置放大一级
         this._options.map.getView().setZoom(parseInt(this._options.map.getView().getZoom()) + 1)
         // 设置放大中心点
-        this._options.map.getView().setCenter(e.selected[0].get('geometry').getCoordinates())
+        if (e.selected[0]) {
+          this._options.map.getView().setCenter(e.selected[0].get('geometry').getCoordinates())
+        }
       }
       if (this._options.map.getView().getZoom() < (minZoom || 18)) return
       if (e.selected.length === 0) return

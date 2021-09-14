@@ -85,8 +85,8 @@ export default class GridPolygon extends BaseFeature {
 
     let _color = feature.get('color') || 'rgba(0, 0, 255, 0.1)'
 
-    if (isSelect) {
-      _color = this._options.hoverColor || 'rgba(0, 0, 255, 0.6)'
+    if (isSelect && this._options.hoverColor) {
+      _color = this._options.hoverColor
     }
 
     // 设置边框样式
