@@ -10,26 +10,28 @@ Tmap.addView({
   proj: 'EPSG:4326',
   zoom: 15,
   minZoom: 7,
-  maxZoom: 18
+  maxZoom: 19
 })
-Tmap.useTianDiTu({
-  type: ['vec', 'cva'],
-  proj: 'EPSG:4326',
-  key: 'a3f0bbf7db728e8db4ebbe860679d4bb',
-  url: 'http://t{0-7}.tianditu.gov.cn/'
-})
-// Tmap.useWMTS({
-//   type: 'bigemap.other',
-//   // matrixSet: '7to15',
-//   proj: 'EPSG:3857',
-//   // format: 'image/png',
-//   url: 'http://192.168.1.101:3001/bigemap.bo43x8js/wmts?access_token=',
-//   key: 'pk.eyJ1IjoiY3VzX2M0aTBscGhmIiwiYSI6ImJqeXZsdHk3N2EydmdtZXo3dzZjYnQ2cmciLCJ0IjoxfQ.2fc5YeRqKYxhQVmDJ2FSK0fXGxJrxO-UAH5q6tLI5gk'
+// Tmap.useTianDiTu({
+//   type: ['vec', 'cva'],
+//   proj: 'EPSG:4326',
+//   key: 'a3f0bbf7db728e8db4ebbe860679d4bb',
+//   url: 'http://t{0-7}.tianditu.gov.cn/'
 // })
+Tmap.useWMTS({
+  type: 'bigemap.other',
+  // matrixSet: '7to15',
+  proj: 'EPSG:3857',
+  // format: 'image/png',
+  maxZoom: 19,
+  url: 'http://localhost:9001/bigemap.0q1n9jj8/wmts?access_token=pk.eyJ1IjoiY3VzXzZ1NXZmOXdsIiwiYSI6IjdyYWtlaTdnaXpuandwcDJvbzJiZW1obHkiLCJ0IjoxfQ.6JBVGFNZ47dAfZl32XT1c_Xw0mstu88L7eAx6znQfLU'
+  // url: 'http://192.168.1.101:3001/bigemap.bo43x8js/wmts?access_token=',
+  // key: 'pk.eyJ1IjoiY3VzX2M0aTBscGhmIiwiYSI6ImJqeXZsdHk3N2EydmdtZXo3dzZjYnQ2cmciLCJ0IjoxfQ.2fc5YeRqKYxhQVmDJ2FSK0fXGxJrxO-UAH5q6tLI5gk'
+})
 // Tmap.on('click', (e) => {
-
 //   // const a = Tmap._getLonLat(e)
 //   //
+//   console.log('%c 🍭 Tmap.getZoom(): ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', Tmap.getZoom())
 // })
 // document.getElementById('root').addEventListener('click', e => {
 //   console.log('%c 🍅 Tmap.getLonLat(e): ', 'font-size:20px;background-color: #465975;color:#fff;', Tmap.getLonLat(e))
@@ -72,6 +74,19 @@ const a = [
 // Tmap.addInteraction(select)
 /* ****************** 网格 ****************** */
 
+const iconMarker = Tmap.IconMarker({ iconUrl: require('./car.png').default })
+iconMarker.create({
+  point: a[0],
+  name: 'test',
+  label: 'test'
+})
+
+console.log('%c 🍸 iconMarker: ', 'font-size:20px;background-color: #F5CE50;color:#fff;', iconMarker)
+Tmap.addLayer(iconMarker.layer)
+
+iconMarker.addClick((e) => { console.log(e) })
+Tmap.addInteraction(iconMarker.interaction)
+
 /* ****************** 动画 ****************** */
 
 const trajectory = Tmap.Trajectory({ repeat: true, iconUrl: require('./car.png').default })
@@ -81,10 +96,7 @@ trajectory.create({
   route: a
 })
 
-setTimeout(() => {
-  console.log(1)
-  trajectory.start()
-}, 10 * 1000)
+trajectory.start()
 
 /* ****************** 动画 ****************** */
 

@@ -582,6 +582,7 @@ export class MapInit {
    * @param {String} options.matrixSet 非必填,矩阵集
    * @param {String} options.format 非必填,图像格式
    * @param {String} options.key 非必填,开发者秘钥
+   * @param {Number} [options.maxZoom] 非必填,地图最大层级
    * @param {String} options.url 必填,WMTS服务的基础url
    */
   useWMTS (options) {
@@ -591,7 +592,8 @@ export class MapInit {
       matrixSet: options.matrixSet,
       format: options.format,
       key: options.key || '',
-      url: options.url
+      url: options.url,
+      maxZoom: options.maxZoom
     }))
     /** @description 添加地图 layer 实例进 map 实例 */
     this._mapLayer.forEach(item => {
@@ -609,6 +611,15 @@ export class MapInit {
     this._view.setZoom(options)
   }
 
+  /** @description 当滚轮滚动时触发 */
+  zoomChange (fun) {
+    const key = this._map.on('wheel', (e) => {
+      fun(this.getZoom(), e)
+    })
+
+    return key
+  }
+
   /**
    * @param {Object} event 鼠标点击的 event 事件
    * @return {Number[]} 鼠标点击位置的经纬度
@@ -623,7 +634,7 @@ export class MapInit {
 
   /** @return {Number} 返回缩放级别 */
   getZoom () {
-    return parseInt(this._view.getZoom())
+    return Math.ceil(this._view.getZoom())
   }
 
   /**
@@ -635,7 +646,7 @@ export class MapInit {
    */
   on (eventName, callBack) {
     const key = this._map.on(eventName, (e) => {
-      e.zoom = parseInt(this._view.getZoom())
+      e.zoom = Math.ceil(this._view.getZoom())
       callBack(e)
     })
     return key

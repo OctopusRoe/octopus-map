@@ -221,7 +221,7 @@ export default class Text extends BaseFeature {
     this._select[this._select.length - 1].on('select', e => {
       if (e.selected.length === 0) return
       callBack && callBack({
-        zoom: parseInt(this._options.map.getView().getZoom()),
+        zoom: Math.ceil(this._options.map.getView().getZoom()),
         value: e.selected[e.selected.length - 1].get('item')
       })
     })
@@ -270,7 +270,7 @@ export default class Text extends BaseFeature {
     this._select[this._select.length - 1].on('select', e => {
       if (e.selected.length === 0) return
       callBack && callBack({
-        zoom: parseInt(this._options.map.getView().getZoom()),
+        zoom: Math.ceil(this._options.map.getView().getZoom()),
         value: e.selected[e.selected.length - 1].get('item')
       })
     })

@@ -18,6 +18,8 @@ import Overlay from 'ol/Overlay'
  * @property {String} label Dom 标注的提示信息
  * @property {Element | String | undefined} [innerHTML] dom 或者 dom 字符串模板
  * @property {Number} [zIndex] dom 的层级
+ * @property {String} [positioning] dom 对于 position 的定位方式
+ * @property {String} [className] dom 的 css 类名
  */
 
 export default class DomMarker {
@@ -95,7 +97,9 @@ export default class DomMarker {
       id: options.id,
       element: div,
       position: options.point,
-      offset: this._options.offset ? this._options.offset : [0, 0]
+      positioning: options.positioning || 'bottom-center',
+      offset: this._options.offset ? this._options.offset : [0, 0],
+      className: options.className || 'ol-overlay-container ol-selectable'
     })
 
     // 给 Overlay 实例添加 name 属性和值
@@ -161,7 +165,7 @@ export default class DomMarker {
       element.addEventListener('click', (event) => {
         event.stopPropagation()
         callBack && callBack({
-          zoom: parseInt(this._options.map.getView().getZoom()),
+          zoom: Math.ceil(this._options.map.getView().getZoom()),
           item: item.get('data')
         })
       })

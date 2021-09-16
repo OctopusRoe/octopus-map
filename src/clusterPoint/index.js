@@ -23,6 +23,7 @@ export default class ClusterPoint extends BaseFeature {
    *
    * @param {Object} options
    * @param {String} options.iconUrl 聚合的图标样式
+   * @param {String} options.name Layer 层名字
    * @param {String} [options.fontStyle] 标注字体的样式, 和 css 中的 font 字段一样
    * @param {String} [options.fontColor] 标注字体的颜色
    * @param {Number[]} [options.offset] 标注字体的偏移量[x, y]
@@ -62,6 +63,8 @@ export default class ClusterPoint extends BaseFeature {
       source: this._cluster,
       style: (feature) => this._returenStyle(feature)
     })
+
+    this._layer.set('name', options.name || 'clusterPoint')
   }
 
   /**
@@ -177,7 +180,7 @@ export default class ClusterPoint extends BaseFeature {
       delta = e.delta || e.wheelDelta
     }
 
-    return { zoom: e.zoom || parseInt(this._options.map.getView().getZoom()), delta: delta, event: e }
+    return { zoom: e.zoom || Math.ceil(this._options.map.getView().getZoom()), delta: delta, event: e }
   }
 
   /**
@@ -193,9 +196,9 @@ export default class ClusterPoint extends BaseFeature {
 
     select.on('select', e => {
       // 判断是否是最后一级
-      if (parseInt(this._options.map.getView().getZoom()) < 18) {
+      if (Math.ceil(this._options.map.getView().getZoom()) < 18) {
         // 设置放大一级
-        this._options.map.getView().setZoom(parseInt(this._options.map.getView().getZoom()) + 1)
+        this._options.map.getView().setZoom(Math.ceil(this._options.map.getView().getZoom()) + 1)
         // 设置放大中心点
         if (e.selected[0]) {
           this._options.map.getView().setCenter(e.selected[0].get('geometry').getCoordinates())
@@ -205,7 +208,7 @@ export default class ClusterPoint extends BaseFeature {
       if (e.selected.length === 0) return
       if (e.selected[0].get('features').length > 1) return
       callBack && callBack({
-        zoom: parseInt(this._options.map.getView().getZoom()),
+        zoom: Math.ceil(this._options.map.getView().getZoom()),
         item: e.selected[0].get('features')[0].get('item')
       })
     })
@@ -255,7 +258,7 @@ export default class ClusterPoint extends BaseFeature {
       div.style.display = 'block'
 
       callBack && callBack({
-        zoom: parseInt(this._options.map.getView().getZoom()),
+        zoom: Math.ceil(this._options.map.getView().getZoom()),
         item: e.selected[0].get('features')[0].get('item')
       })
 

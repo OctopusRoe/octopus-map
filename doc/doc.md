@@ -1,4 +1,4 @@
-## OCTOPUS-MAP API (V0.0.25)
+## OCTOPUS-MAP API (V0.1.0)
 
 
 
@@ -397,6 +397,14 @@ document.getElementById('map').addEventListener('click', e => {
 
 
 
+##### zoomChange
+
+| 方法名                          | 返回 | 说明             |
+| ------------------------------- | ---- | ---------------- |
+| zoomChange((zoom, event) => {}) | key  | 当滚轮滚动时触发 |
+
+
+
 ##### on
 
 | 方法名                  | 返回      | 说明     |
@@ -685,6 +693,7 @@ Tmap.addInteraction(textClick)
 | 属性名      | 类型                                               | 必须  | 默认值                                                 | 说明               |
 | ----------- | -------------------------------------------------- | ----- | ------------------------------------------------------ | ------------------ |
 | name        | String                                             | false | gridPolygon                                            | Layer 层的名字     |
+| opacity     | Number                                             | false | 1                                                      | Layer 层的透明度   |
 | stroke      | {color: String, width: Number, lineDash: Number[]} | false | {color:rgba(0, 0, 255, 0.8),width: 0, lineDash:[0,0] } | 网格的边框配置     |
 | hoverColor  | String                                             | false | rgba(0, 255, 0, 0.4)                                   | 鼠标选中时的颜色   |
 | fontColor   | String                                             | false | #333                                                   | 标注字体颜色       |
@@ -992,7 +1001,7 @@ const one = [115.904642, 28.680854]
 iconMarker.create({
     point: one,
     name: 'test',
-    lbael: 'testOne'
+    label: 'testOne'
 })
 ```
 
@@ -1002,14 +1011,14 @@ iconMarker.create({
 
 | 方法名                   | 返回        | 说明         |
 | ------------------------ | ----------- | ------------ |
-| addClick(name, callBack) | Interaction | 添加鼠标事件 |
+| addClick(callBack, name) | Interaction | 添加鼠标事件 |
 
 
 
 | 参数名   | 类型     | 必须 | 默认值 | 说明                   |
 | -------- | -------- | ---- | ------ | ---------------------- |
-| name     | String   | true | null   | Interaction 实例的名字 |
 | callBack | Function | true | null   | 回调函数               |
+| name     | String   | true | null   | Interaction 实例的名字 |
 
 
 
@@ -1177,14 +1186,15 @@ const domeMarker = Tmap.DomMarker({
 | ------- | ------------------ | ---- | ------ | -------------------- |
 | options | Object \| Object[] | true | null   | 标注的配置或配置数组 |
 
-| 属性名    | 类型                           | 必须  | 默认值 | 说明                     |
-| --------- | ------------------------------ | ----- | ------ | ------------------------ |
-| name      | String                         | true  | null   | Overlay 实例的名字       |
-| id        | String                         | true  | null   | Dom 容器的 Id            |
-| point     | Number[]                       | true  | null   | Dom 标注的位置           |
-| label     | String                         | true  | null   | Dom 标注的提示           |
-| innerHTML | Element \| String \| undefined | false | null   | dom 或者  dom 字符串模板 |
-| zIndex    | Number                         | false | 10     | dom 的层级               |
+| 属性名      | 类型                           | 必须  | 默认值                             | 说明                         |
+| ----------- | ------------------------------ | ----- | ---------------------------------- | ---------------------------- |
+| name        | String                         | true  | null                               | Overlay 实例的名字           |
+| id          | String                         | true  | null                               | Dom 容器的 Id                |
+| point       | Number[]                       | true  | null                               | Dom 标注的位置               |
+| positioning | String                         | false | bottom-center                      | dom 对于 position 的定位方式 |
+| label       | String                         | true  | null                               | Dom 标注的提示               |
+| innerHTML   | Element \| String \| undefined | false | null                               | dom 或者  dom 字符串模板     |
+| className   | String                         | false | ol-overlay-container ol-selectable | 最外层 dom 的 css 类名       |
 
 
 
@@ -1194,6 +1204,8 @@ domeMarker.create({
     id: 'testDom',
     point: [115.904642, 28.680854]
 })
+
+Tmap.addOverlay(domMarker.overlays)
 ```
 
 
@@ -1409,11 +1421,11 @@ trajectory.stop()
 
 
 
-| 属性名 | 类型   | 必须  | 默认值       | 说明             |
-| ------ | ------ | ----- | ------------ | ---------------- |
-| name   | String | false | heatMapLayer | Layer 实例的名字 |
-| blur   | Number | false | 20           | 模糊尺寸半径     |
-| radius | Number | false | 20           | 热点半径         |
+| 属性名 | 类型   | 必须  | 默认值  | 说明             |
+| ------ | ------ | ----- | ------- | ---------------- |
+| name   | String | false | heatMap | Layer 实例的名字 |
+| blur   | Number | false | 20      | 模糊尺寸半径     |
+| radius | Number | false | 20      | 热点半径         |
 
 
 
@@ -1822,6 +1834,7 @@ drawModify.stopModify('testStopModify', e => {
 | 属性名    | 类型     | 必须  | 默认值               | 说明                     |
 | --------- | -------- | ----- | -------------------- | ------------------------ |
 | iconUrl   | String   | true  | null                 | 图标的 Url 地址          |
+| name      | String   | false | clusterPoint         | Layer 层的名字           |
 | fontStyle | String   | false | 15px Microsoft YaHei | 标注的字体样式           |
 | fontColor | String   | false | #ffffff              | 标注的字体颜色           |
 | offset    | Number[] | false | [0, 0]               | 标注字体的偏移量, [x, y] |

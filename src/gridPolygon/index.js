@@ -33,6 +33,7 @@ export default class GridPolygon extends BaseFeature {
    *
    * @param {Object} options
    * @param {String} options.name Layer层的名字
+   * @param {Number} [options.opacity] 透明度, 默认为1
    * @param {{color: String, width: Number, lineDash?: Number[]}} options.stroke 网格边框配置
    * @param {String} options.hoverColor 选中时的颜色, 默认为 rbga(0, 255, 0, 0.4)
    * @param {String} options.fontColor 标注字体颜色
@@ -47,6 +48,7 @@ export default class GridPolygon extends BaseFeature {
 
     /** @description 创建图层 */
     this._layer = new VectorLayer({
+      opacity: options.opacity ? options.opacity : 1,
       source: this._source,
       style: (feature) => this._returnStyle(feature, false)
     })
@@ -198,7 +200,7 @@ export default class GridPolygon extends BaseFeature {
     this._select[this._select.length - 1].on('select', e => {
       if (e.selected.length === 0) return
       callBack && callBack({
-        zoom: parseInt(this._options.map.getView().getZoom()),
+        zoom: Math.ceil(this._options.map.getView().getZoom()),
         item: e.selected[e.selected.length - 1].get('item')
       })
     })
@@ -228,7 +230,7 @@ export default class GridPolygon extends BaseFeature {
     this._select[this._select.length - 1].on('select', e => {
       if (e.selected.length === 0) return
       callBack && callBack({
-        zoom: parseInt(this._options.map.getView().getZoom()),
+        zoom: Math.ceil(this._options.map.getView().getZoom()),
         item: e.selected[e.selected.length - 1].get('item')
       })
     })
@@ -258,7 +260,7 @@ export default class GridPolygon extends BaseFeature {
     this._select[this._select.length - 1].on('select', e => {
       if (e.selected.length === 0) return
       callBack && callBack({
-        zoom: parseInt(this._options.map.getView().getZoom()),
+        zoom: Math.ceil(this._options.map.getView().getZoom()),
         item: e.selected[e.selected.length - 1].get('item')
       })
     })

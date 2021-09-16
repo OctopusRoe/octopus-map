@@ -54,7 +54,7 @@ export default class HeatMap extends BaseFeature {
     })
 
     /** @description 设置 _layer 图层名字 */
-    this._layer.set('name', this._options.name || 'heatMapLayer')
+    this._layer.set('name', this._options.name || 'heatMap')
   }
 
   /**

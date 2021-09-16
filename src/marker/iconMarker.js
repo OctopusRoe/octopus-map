@@ -107,7 +107,7 @@ export default class IconMarker extends BaseFeature {
       new Select({
         condition: click,
         layers: [this._layer],
-        style: (feature) => this._returenStyle(feature)
+        style: (feature) => this._returnStyle(feature)
       })
     )
 
@@ -171,7 +171,7 @@ export default class IconMarker extends BaseFeature {
    * @param {Function} callBack 回调函数
    * @return {import('ol/interaction/Select').default} interaction 的实例
    */
-  addClick (name, callBack) {
+  addClick (callBack, name) {
     const select = this._createSelect()
 
     // 设置 select 的名字
@@ -180,7 +180,7 @@ export default class IconMarker extends BaseFeature {
     select.on('select', e => {
       if (e.selected.length === 0) return
       callBack && callBack({
-        zoom: parseInt(this._options.map.getView().getZoom()),
+        zoom: Math.ceil(this._options.map.getView().getZoom()),
         item: e.selected[e.selected.length - 1].get('item')
       })
     })
@@ -230,7 +230,7 @@ export default class IconMarker extends BaseFeature {
       div.style.display = 'block'
 
       callBack && callBack({
-        zoom: parseInt(this._options.map.getView().getZoom()),
+        zoom: Math.ceil(this._options.map.getView().getZoom()),
         item: e.selected[0].get('features')[0].get('item')
       })
 
