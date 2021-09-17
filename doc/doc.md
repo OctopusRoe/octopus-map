@@ -1196,6 +1196,8 @@ const domeMarker = Tmap.DomMarker({
 | innerHTML   | Element \| String \| undefined | false | null                               | dom 或者  dom 字符串模板     |
 | className   | String                         | false | ol-overlay-container ol-selectable | 最外层 dom 的 css 类名       |
 
+**注:** positioning 可选参数为, 'bottom-left', 'bottom-center', 'bottom-right', 'center-left', 'center-center', 'center-right', 'top-left', 'top-center', 'top-right'
+
 
 
 ```javascript

@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "serve": "webpack server --open",
-    "build": "babel src -d lib",
+    "build": "webpack --config webpack.config.js",
     "lint": "eslint --fix src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

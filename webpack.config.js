@@ -28,3 +28,14 @@ module.exports = {
     }
   }
 }
+
+// module.exports = {
+//   mode: 'none',
+//   entry: './lib/index.js',
+//   output: {
+//     filename: 'bundle.js',
+//     path: path.resolve(__dirname, 'dist'),
+//     library: 'mapInit',
+//     libraryTarget: 'umd'
+//   }
+// }
