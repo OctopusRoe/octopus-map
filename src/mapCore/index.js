@@ -601,14 +601,26 @@ export class MapInit {
     })
   }
 
-  /** @param {Number[]} options 设置视图中心点,接受参数 [lng, lat] */
-  setCenter (options) {
-    this._view.setCenter(options)
+  /**
+   * @param {Number[]} options 设置视图中心点,接受参数 [lng, lat]
+   * @param {Number} duration 设置动画平滑时间
+   */
+  setCenter (options, duration) {
+    this._view.animate({
+      center: options,
+      duration: duration || 1000
+    })
   }
 
-  /** @param {Number} options 设置缩放级别 */
-  setZoom (options) {
-    this._view.setZoom(options)
+  /**
+   * @param {Number} options 设置缩放级别
+   * @param {Number} 设置动画平滑时间
+   */
+  setZoom (options, duration) {
+    this._view.animate({
+      zoom: options,
+      duration: duration || 1000
+    })
   }
 
   /** @description 当滚轮滚动时触发 */

@@ -24,15 +24,15 @@ Tmap.useWMTS({
   proj: 'EPSG:3857',
   // format: 'image/png',
   maxZoom: 19,
-  url: 'http://localhost:9001/bigemap.0q1n9jj8/wmts?access_token=pk.eyJ1IjoiY3VzXzZ1NXZmOXdsIiwiYSI6IjdyYWtlaTdnaXpuandwcDJvbzJiZW1obHkiLCJ0IjoxfQ.6JBVGFNZ47dAfZl32XT1c_Xw0mstu88L7eAx6znQfLU'
+  url: 'http://172.11.16.242:3001/bigemap.67asiezo/wmts?access_token=pk.eyJ1IjoiY3VzXzIwYm1pYnF2IiwiYSI6IjJ6M3F4dDlwbTk0YXY0bDdqa2k4NTRtd3QiLCJ0IjoxfQ.BifL5p7L8fssk7J2vyj3mvpclR4XhodY51wD7DnwYfE'
   // url: 'http://192.168.1.101:3001/bigemap.bo43x8js/wmts?access_token=',
   // key: 'pk.eyJ1IjoiY3VzX2M0aTBscGhmIiwiYSI6ImJqeXZsdHk3N2EydmdtZXo3dzZjYnQ2cmciLCJ0IjoxfQ.2fc5YeRqKYxhQVmDJ2FSK0fXGxJrxO-UAH5q6tLI5gk'
 })
-// Tmap.on('click', (e) => {
-//   // const a = Tmap._getLonLat(e)
-//   //
-//   console.log('%c 🍭 Tmap.getZoom(): ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', Tmap.getZoom())
-// })
+Tmap.on('click', (e) => {
+  // const a = Tmap._getLonLat(e)
+  //
+  console.log('%c 🍭 Tmap.getZoom(): ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', Tmap.getZoom())
+})
 // document.getElementById('root').addEventListener('click', e => {
 //   console.log('%c 🍅 Tmap.getLonLat(e): ', 'font-size:20px;background-color: #465975;color:#fff;', Tmap.getLonLat(e))
 // })

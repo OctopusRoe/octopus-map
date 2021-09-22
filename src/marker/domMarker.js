@@ -17,9 +17,9 @@ import Overlay from 'ol/Overlay'
  * @property {Number[]} point 点位置的数组
  * @property {String} label Dom 标注的提示信息
  * @property {Element | String | undefined} [innerHTML] dom 或者 dom 字符串模板
- * @property {Number} [zIndex] dom 的层级
  * @property {String} [positioning] dom 对于 position 的定位方式
  * @property {String} [className] dom 的 css 类名
+ * @property {Boolean} [stopEvent] 是否禁止事件传递到地图视图, 默认为否,不禁止
  */
 
 export default class DomMarker {
@@ -66,8 +66,6 @@ export default class DomMarker {
     // 创建 dom 容器
     const div = this._createMarkElement()
 
-    div.style.zIndex = options.zIndex ? options.zIndex : 10
-
     if (options.innerHTML) {
       if (options.innerHTML instanceof Element) {
         div.insertAdjacentElement('afterbegin', options.innerHTML)
@@ -99,7 +97,8 @@ export default class DomMarker {
       position: options.point,
       positioning: options.positioning || 'bottom-center',
       offset: this._options.offset ? this._options.offset : [0, 0],
-      className: options.className || 'ol-overlay-container ol-selectable'
+      className: options.className || 'ol-overlay-container ol-selectable',
+      stopEvent: options.stopEvent || false
     })
 
     // 给 Overlay 实例添加 name 属性和值

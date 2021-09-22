@@ -1186,15 +1186,16 @@ const domeMarker = Tmap.DomMarker({
 | ------- | ------------------ | ---- | ------ | -------------------- |
 | options | Object \| Object[] | true | null   | 标注的配置或配置数组 |
 
-| 属性名      | 类型                           | 必须  | 默认值                             | 说明                         |
-| ----------- | ------------------------------ | ----- | ---------------------------------- | ---------------------------- |
-| name        | String                         | true  | null                               | Overlay 实例的名字           |
-| id          | String                         | true  | null                               | Dom 容器的 Id                |
-| point       | Number[]                       | true  | null                               | Dom 标注的位置               |
-| positioning | String                         | false | bottom-center                      | dom 对于 position 的定位方式 |
-| label       | String                         | true  | null                               | Dom 标注的提示               |
-| innerHTML   | Element \| String \| undefined | false | null                               | dom 或者  dom 字符串模板     |
-| className   | String                         | false | ol-overlay-container ol-selectable | 最外层 dom 的 css 类名       |
+| 属性名      | 类型                           | 必须  | 默认值                             | 说明                                   |
+| ----------- | ------------------------------ | ----- | ---------------------------------- | -------------------------------------- |
+| name        | String                         | true  | null                               | Overlay 实例的名字                     |
+| id          | String                         | true  | null                               | Dom 容器的 Id                          |
+| point       | Number[]                       | true  | null                               | Dom 标注的位置                         |
+| positioning | String                         | false | bottom-center                      | dom 对于 position 的定位方式           |
+| label       | String                         | true  | null                               | Dom 标注的提示                         |
+| innerHTML   | Element \| String \| undefined | false | null                               | dom 或者  dom 字符串模板               |
+| className   | String                         | false | ol-overlay-container ol-selectable | 最外层 dom 的 css 类名                 |
+| stopEvent   | Boolean                        | false | false                              | 是否禁止事件传递到地图视图, 默认不禁止 |
 
 **注:** positioning 可选参数为, 'bottom-left', 'bottom-center', 'bottom-right', 'center-left', 'center-center', 'center-right', 'top-left', 'top-center', 'top-right'
 
