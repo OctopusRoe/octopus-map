@@ -631,11 +631,11 @@ export class MapInit {
    * @param {String} options.url 地图服务器地址
    */
   useGLKF (options) {
-    this._mapLayer.push({
+    this._mapLayer.push(useGLKF({
       data: options.data,
       proj: options.proj || 'EPSG:3857',
       url: options.url
-    })
+    }))
     /** @description 添加地图 layer 实例进 map 实例 */
     this._mapLayer.forEach(item => {
       this._map.addLayer(item)

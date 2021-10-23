@@ -39,7 +39,7 @@ export default function useGLKF (options) {
     tileGrid: tileGrid,
     projection: proj,
     tileUrlFunction: (tileCoord) => {
-      const url = urlTemplate.replace('{z}', (tileCoord[0]).toString()).replace('{x}', tileCoord[1].toString()).replace('{y}', (-tileCoord[2] - 1).toString());
+      const url = urlTemplate.replace('{z}', (tileCoord[0]).toString()).replace('{x}', tileCoord[1].toString()).replace('{y}', (tileCoord[2] - 1).toString());
       return url
     }
   })
