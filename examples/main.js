@@ -12,22 +12,27 @@ Tmap.addView({
   minZoom: 7,
   maxZoom: 19
 })
+Tmap.useMapServer({
+  proj: 'EPSG: 4326',
+  url: 'https://yhxt.jxgsgl.com:7031/arcgis/rest/services/jx/JxMapblue2021/MapServer/tile/{z}/{y}/{x}',
+  maxZoom: 14
+})
 // Tmap.useTianDiTu({
 //   type: ['vec', 'cva'],
 //   proj: 'EPSG:4326',
 //   key: 'a3f0bbf7db728e8db4ebbe860679d4bb',
 //   url: 'http://t{0-7}.tianditu.gov.cn/'
 // })
-Tmap.useWMTS({
-  type: 'bigemap.other',
-  // matrixSet: '7to15',
-  proj: 'EPSG:3857',
-  // format: 'image/png',
-  maxZoom: 19,
-  url: 'http://172.11.16.242:3001/bigemap.67asiezo/wmts?access_token=pk.eyJ1IjoiY3VzXzIwYm1pYnF2IiwiYSI6IjJ6M3F4dDlwbTk0YXY0bDdqa2k4NTRtd3QiLCJ0IjoxfQ.BifL5p7L8fssk7J2vyj3mvpclR4XhodY51wD7DnwYfE'
-  // url: 'http://192.168.1.101:3001/bigemap.bo43x8js/wmts?access_token=',
-  // key: 'pk.eyJ1IjoiY3VzX2M0aTBscGhmIiwiYSI6ImJqeXZsdHk3N2EydmdtZXo3dzZjYnQ2cmciLCJ0IjoxfQ.2fc5YeRqKYxhQVmDJ2FSK0fXGxJrxO-UAH5q6tLI5gk'
-})
+// Tmap.useWMTS({
+//   type: 'bigemap.other',
+//   // matrixSet: '7to15',
+//   proj: 'EPSG:3857',
+//   // format: 'image/png',
+//   maxZoom: 19,
+//   url: 'http://172.11.16.242:3001/bigemap.67asiezo/wmts?access_token=pk.eyJ1IjoiY3VzXzIwYm1pYnF2IiwiYSI6IjJ6M3F4dDlwbTk0YXY0bDdqa2k4NTRtd3QiLCJ0IjoxfQ.BifL5p7L8fssk7J2vyj3mvpclR4XhodY51wD7DnwYfE'
+//   // url: 'http://192.168.1.101:3001/bigemap.bo43x8js/wmts?access_token=',
+//   // key: 'pk.eyJ1IjoiY3VzX2M0aTBscGhmIiwiYSI6ImJqeXZsdHk3N2EydmdtZXo3dzZjYnQ2cmciLCJ0IjoxfQ.2fc5YeRqKYxhQVmDJ2FSK0fXGxJrxO-UAH5q6tLI5gk'
+// })
 Tmap.on('click', (e) => {
   // const a = Tmap._getLonLat(e)
   //

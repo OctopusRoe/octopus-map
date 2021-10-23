@@ -17,6 +17,8 @@ import { get } from 'ol/proj'
 import { unByKey } from 'ol/Observable'
 import useTianDiTu from '../useTianditu'
 import useWMTS from '../useWMTS'
+import useXYZ from '../useXYZ'
+import useGLKF from '../useGLKF'
 import tranForm from '../tranform'
 import Text from '../text'
 import GridPolygon from '../gridPolygon'
@@ -72,7 +74,7 @@ export class MapInit {
    * @param {Boolean | UseControl} [options.useControl] 用于判断是否使用地图自带控制功能,默认参数为 false
    * @param {Boolean} [doubleClickZoom] 双击放大地图,默认为关闭
    */
-  constructor (options) {
+  constructor(options) {
     /** @description 提供坐标点转化的方法对象 */
     this.tranForm = tranForm
 
@@ -595,6 +597,45 @@ export class MapInit {
       url: options.url,
       maxZoom: options.maxZoom
     }))
+    /** @description 添加地图 layer 实例进 map 实例 */
+    this._mapLayer.forEach(item => {
+      this._map.addLayer(item)
+    })
+  }
+
+  /**
+   * @description 创建使用 XYZ 服务的 layer, bing添加进 map 实例
+   *
+   * @param {Object} options
+   * @param {String} options.url XYZ服务的基础url
+   * @param {String} options.proj 投医坐标系类型
+   * @param {Number} [options.maxZoom] 地图的最大层级
+   */
+  useXYZ (options) {
+    this._mapLayer.push(useXYZ({
+      proj: options.proj || 'EPSG:3857',
+      url: options.url,
+      maxZoom: options.maxZoom
+    }))
+    /** @description 添加地图 layer 实例进 map 实例 */
+    this._mapLayer.forEach(item => {
+      this._map.addLayer(item)
+    })
+  }
+
+  /**
+   * 
+   * @param {Object} options
+   * @param {Object} options.data 从地图服务器获取的地图json数据
+   * @param {String} options.proj 投影坐标系
+   * @param {String} options.url 地图服务器地址
+   */
+  useGLKF (options) {
+    this._mapLayer.push({
+      data: options.data,
+      proj: options.proj || 'EPSG:3857',
+      url: options.url
+    })
     /** @description 添加地图 layer 实例进 map 实例 */
     this._mapLayer.forEach(item => {
       this._map.addLayer(item)
