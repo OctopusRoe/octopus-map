@@ -29,6 +29,7 @@ import HeatMap from '../heatMap'
 import DrawLine from '../drawLine'
 import DrawModify from '../drawModify'
 import ClusterPoint from '../clusterPoint'
+import Line from '../line'
 
 /**
  * @description
@@ -134,6 +135,17 @@ export class MapInit {
    */
   Text (options) {
     return new Text({ ...options, map: this._map })
+  }
+
+  /**
+   * @description 创建线段实例
+   * 
+   * @param {Object} options
+   * @param {String} options.name Layer 实例的名字
+   * @param {{}} options.style 线段的样式
+   */
+  Line (options) {
+    return new Line({ ...options, map: this._map })
   }
 
   /**

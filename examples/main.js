@@ -12,17 +12,17 @@ Tmap.addView({
   minZoom: 7,
   maxZoom: 19
 })
-Tmap.useMapServer({
-  proj: 'EPSG: 4326',
-  url: 'https://yhxt.jxgsgl.com:7031/arcgis/rest/services/jx/JxMapblue2021/MapServer/tile/{z}/{y}/{x}',
-  maxZoom: 14
-})
-// Tmap.useTianDiTu({
-//   type: ['vec', 'cva'],
-//   proj: 'EPSG:4326',
-//   key: 'a3f0bbf7db728e8db4ebbe860679d4bb',
-//   url: 'http://t{0-7}.tianditu.gov.cn/'
+// Tmap.useMapServer({
+//   proj: 'EPSG: 4326',
+//   url: 'https://yhxt.jxgsgl.com:7031/arcgis/rest/services/jx/JxMapblue2021/MapServer/tile/{z}/{y}/{x}',
+//   maxZoom: 14
 // })
+Tmap.useTianDiTu({
+  type: ['vec', 'cva'],
+  proj: 'EPSG:4326',
+  key: 'a3f0bbf7db728e8db4ebbe860679d4bb',
+  url: 'http://t{0-7}.tianditu.gov.cn/'
+})
 // Tmap.useWMTS({
 //   type: 'bigemap.other',
 //   // matrixSet: '7to15',
@@ -33,11 +33,11 @@ Tmap.useMapServer({
 //   // url: 'http://192.168.1.101:3001/bigemap.bo43x8js/wmts?access_token=',
 //   // key: 'pk.eyJ1IjoiY3VzX2M0aTBscGhmIiwiYSI6ImJqeXZsdHk3N2EydmdtZXo3dzZjYnQ2cmciLCJ0IjoxfQ.2fc5YeRqKYxhQVmDJ2FSK0fXGxJrxO-UAH5q6tLI5gk'
 // })
-Tmap.on('click', (e) => {
-  // const a = Tmap._getLonLat(e)
-  //
-  console.log('%c 🍭 Tmap.getZoom(): ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', Tmap.getZoom())
-})
+// Tmap.on('click', (e) => {
+//   // const a = Tmap._getLonLat(e)
+//   //
+//   console.log('%c 🍭 Tmap.getZoom(): ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', Tmap.getZoom())
+// })
 // document.getElementById('root').addEventListener('click', e => {
 //   console.log('%c 🍅 Tmap.getLonLat(e): ', 'font-size:20px;background-color: #465975;color:#fff;', Tmap.getLonLat(e))
 // })
@@ -55,6 +55,11 @@ const a = [
   [115.898654, 28.684034],
   [115.899881, 28.68228]
 ]
+
+const line = Tmap.Line({ name: 'line', style: { color: 'red', width: 3 } })
+Tmap.addLayer(line.layer)
+console.log('%c 🍥 Tmap: ', 'font-size:20px;background-color: #465975;color:#fff;', Tmap);
+line.create({ point: a })
 // a.forEach((item, index) => {
 //   test.create({ label: `测试${index + 1}`, point: item })
 // })
@@ -79,29 +84,29 @@ const a = [
 // Tmap.addInteraction(select)
 /* ****************** 网格 ****************** */
 
-const iconMarker = Tmap.IconMarker({ iconUrl: require('./car.png').default })
-iconMarker.create({
-  point: a[0],
-  name: 'test',
-  label: 'test'
-})
+// const iconMarker = Tmap.IconMarker({ iconUrl: require('./car.png').default })
+// iconMarker.create({
+//   point: a[0],
+//   name: 'test',
+//   label: 'test'
+// })
 
-console.log('%c 🍸 iconMarker: ', 'font-size:20px;background-color: #F5CE50;color:#fff;', iconMarker)
-Tmap.addLayer(iconMarker.layer)
+// console.log('%c 🍸 iconMarker: ', 'font-size:20px;background-color: #F5CE50;color:#fff;', iconMarker)
+// Tmap.addLayer(iconMarker.layer)
 
-iconMarker.addClick((e) => { console.log(e) })
-Tmap.addInteraction(iconMarker.interaction)
+// iconMarker.addClick((e) => { console.log(e) })
+// Tmap.addInteraction(iconMarker.interaction)
 
 /* ****************** 动画 ****************** */
 
-const trajectory = Tmap.Trajectory({ repeat: true, iconUrl: require('./car.png').default })
-Tmap.addLayer(trajectory.layer)
-trajectory.create({
-  name: 'testAnimation',
-  route: a
-})
+// const trajectory = Tmap.Trajectory({ repeat: true, iconUrl: require('./car.png').default })
+// Tmap.addLayer(trajectory.layer)
+// trajectory.create({
+//   name: 'testAnimation',
+//   route: a
+// })
 
-trajectory.start()
+// trajectory.start()
 
 /* ****************** 动画 ****************** */
 
