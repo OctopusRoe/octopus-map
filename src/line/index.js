@@ -10,11 +10,11 @@ import Feature from 'ol/Feature'
 import { Vector as VectorLayer } from 'ol/layer'
 import { Vector as VectorSource } from 'ol/source'
 import { LineString } from 'ol/geom'
-import { Style, Stroke, Fill } from 'ol/style'
+import { Style, Stroke } from 'ol/style'
 
 /**
  * @description 线段样式
- * 
+ *
  * @typedef {Object} style
  * @property {Number} [width] 线段宽度
  * @property {String} [color] 路径的颜色,与 css 的 color 字段一样,默认为 #000
@@ -22,13 +22,14 @@ import { Style, Stroke, Fill } from 'ol/style'
 
 export default class Line {
   /**
-   * 
+   *
    * @param {Object} options
    * @param {import('ol/Map').default} options.map Map 实例
    * @param {String} options.name Layer 实例的名字
    * @param {style} options.style 路径的样式
    */
   constructor(options) {
+    this._map = options.map
     /** @description 保存创建实例时, 传入的全部参数 */
     this._options = options
     /** @description 用于储存 Feature 实例的仓库 */
@@ -71,10 +72,10 @@ export default class Line {
   }
 
   /**
-   * 
+   *
    * @param {Object} options
    * @param {String} [options.name] feature 的名字
-   * @param {Number[][]} options.point 线段的经纬度 
+   * @param {Number[][]} options.point 线段的经纬度
    */
   _createLine (options) {
     const line = new Feature({
@@ -89,7 +90,7 @@ export default class Line {
 
   /**
    * @description 创建线段的方法
-   * @param {{name: String, point: Number[]} || {name: String, point: Nymber[]}[]} options 
+   * @param {{name: String, point: Number[]} || {name: String, point: Nymber[]}[]} options
    */
   create (options) {
     if (Array.isArray(options)) {
@@ -103,4 +104,19 @@ export default class Line {
     return { layer: this._layer, feature: this._feature }
   }
 
+  addWheel () {
+    const key = this._map.on('wheel', (e) => {
+      const options = this._options
+      const { originalEvent } = e
+      if (originalEvent.wheelDeltaY > 0) {
+        options.style.width = options.style.width > 16 ? options.style.width : options.style.width + 2
+        this._layer.setStyle(this._createStyle(options))
+      } else {
+        options.style.width = options.style.width < 5 ? options.style.width : options.style.width - 2
+        this._layer.setStyle(this._createStyle(options))
+      }
+    })
+
+    return key
+  }
 }

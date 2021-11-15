@@ -9,7 +9,7 @@ import TileGrid from 'ol/tilegrid/TileGrid'
 import Tile from 'ol/layer/Tile'
 
 /**
- * 
+ *
  * @param {Object} options
  * @param {Object} options.data 从地图服务器获取的地图json数据
  * @param {String} options.proj 投影坐标系
@@ -39,7 +39,7 @@ export default function useGLKF (options) {
     tileGrid: tileGrid,
     projection: proj,
     tileUrlFunction: (tileCoord) => {
-      const url = urlTemplate.replace('{z}', (tileCoord[0]).toString()).replace('{x}', tileCoord[1].toString()).replace('{y}', (tileCoord[2] - 1).toString());
+      const url = urlTemplate.replace('{z}', (tileCoord[0]).toString()).replace('{x}', tileCoord[1].toString()).replace('{y}', (tileCoord[2]).toString())
       return url
     }
   })

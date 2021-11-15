@@ -1,5 +1,4 @@
 import { MapInit } from '@/src'
-import { one } from './data'
 const Tmap = new MapInit({
   target: 'root',
   useControl: false
@@ -58,8 +57,13 @@ const a = [
 
 const line = Tmap.Line({ name: 'line', style: { color: 'red', width: 3 } })
 Tmap.addLayer(line.layer)
-console.log('%c 🍥 Tmap: ', 'font-size:20px;background-color: #465975;color:#fff;', Tmap);
 line.create({ point: a })
+line.addWheel()
+
+// const line = Tmap.Line({ name: 'line', style: { color: 'red', width: 3 } })
+// Tmap.addLayer(line.layer)
+// console.log('%c 🍥 Tmap: ', 'font-size:20px;background-color: #465975;color:#fff;', Tmap)
+// line.create({ point: a })
 // a.forEach((item, index) => {
 //   test.create({ label: `测试${index + 1}`, point: item })
 // })
